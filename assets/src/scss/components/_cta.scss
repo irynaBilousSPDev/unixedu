@@ -1,0 +1,27 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.cta-band {
+    background: vars.$brand-lime;
+    color: vars.$brand-dark;
+
+    &__inner {
+        @include mixins.container(vars.$container-wide);
+        @include mixins.flexbox(center, space-between, row, 40px);
+        padding-block: 54px;
+
+        @include mixins.respond-max(vars.$bp-md) {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
+
+    &__title {
+        @include mixins.heading-style(clamp(34px, 4vw, 64px), 1, 800, vars.$brand-dark);
+    }
+
+    &__text {
+        @include mixins.body-copy(18px, rgba(vars.$brand-dark, 0.72));
+        margin-top: 8px;
+    }
+}

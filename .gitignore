@@ -1,0 +1,12 @@
+node_modules/
+
+# Build outputs
+assets/dist/
+assets/dist/**
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+

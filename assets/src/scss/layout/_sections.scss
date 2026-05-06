@@ -1,0 +1,26 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.section-head {
+    max-width: 920px;
+    margin-bottom: 58px;
+
+    &--center {
+        margin-inline: auto;
+        text-align: center;
+    }
+
+    &__eyebrow {
+        @include mixins.eyebrow(rgba(vars.$brand-dark, 0.55));
+    }
+
+    &__title {
+        @include mixins.heading-style(clamp(38px, 4.2vw, 76px), 0.98, 800, vars.$brand-dark);
+    }
+
+    &__text {
+        @include mixins.body-copy(18px, vars.$text-muted);
+        max-width: 760px;
+        margin-top: 20px;
+    }
+}

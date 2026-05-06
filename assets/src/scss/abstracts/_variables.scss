@@ -1,0 +1,44 @@
+// Design tokens extracted from the provided SVG layouts.
+// Keep values centralized. Components should not hardcode colors, widths, or breakpoints.
+
+$font-primary: 'Futura PT', 'FuturaPT', 'Segoe UI', Arial, sans-serif;
+$font-system: 'Segoe UI', Arial, sans-serif;
+
+$black: #000000;
+$white: #ffffff;
+$brand-dark: #0d1a05;
+$brand-lime: #c8ff00;
+$brand-lime-soft: #f7ffe8;
+$brand-lime-card: #eaffa0;
+$gray-section: #f5f5f5;
+$blue-accent: #1f9cd8;
+$orange-accent: #ff6d2d;
+$text-muted: rgba($brand-dark, 0.68);
+$border-soft: rgba($brand-dark, 0.14);
+
+$container-max: 1440px;
+$container-wide: 1600px;
+$container-padding: 32px;
+$container-padding-mobile: 20px;
+
+$header-height: 106px;
+$header-height-mobile: 72px;
+
+$radius-xs: 6px;
+$radius-sm: 10px;
+$radius-md: 16px;
+$radius-lg: 24px;
+$radius-pill: 999px;
+
+$transition-fast: 180ms ease;
+$transition-base: 260ms ease;
+
+$z-header: 50;
+$z-overlay: 100;
+
+$bp-xs: 420px;
+$bp-sm: 576px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1280px;
+$bp-xxl: 1440px;

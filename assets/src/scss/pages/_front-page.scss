@@ -1,0 +1,16 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+// Renamed from _home.scss to match the theme's template naming (front-page.php).
+
+.home-page {
+  .who-section {
+    padding-block: 118px;
+  }
+
+  .navigation-section {
+    padding-block: 120px;
+    background: vars.$gray-section;
+  }
+}
+

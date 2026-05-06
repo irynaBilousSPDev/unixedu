@@ -1,0 +1,38 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.for-students-page {
+    .student-needs {
+        position: relative;
+        min-height: 740px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        background: vars.$gray-section;
+
+        &__inner {
+            @include mixins.container(vars.$container-wide);
+            display: grid;
+            grid-template-columns: minmax(0, 0.95fr) minmax(0, 1fr);
+            align-items: center;
+            gap: 80px;
+
+            @include mixins.respond-max(vars.$bp-lg) {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        &__media {
+            min-height: 620px;
+
+            img {
+                @include mixins.image-cover;
+            }
+        }
+
+        &__title {
+            @include mixins.heading-style(clamp(42px, 4vw, 76px), 0.98, 800, vars.$brand-dark);
+            margin-bottom: 26px;
+        }
+    }
+}

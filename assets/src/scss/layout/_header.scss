@@ -1,0 +1,300 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: vars.$z-header;
+    height: 92px;
+    background: vars.$black;
+    color: vars.$brand-lime;
+    border-bottom: 1px solid rgba(vars.$white, 0.12);
+
+    @include mixins.respond-max(vars.$bp-lg) {
+        height: vars.$header-height-mobile;
+    }
+
+    &__inner {
+        @include mixins.container(vars.$container-wide);
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        column-gap: 28px;
+        height: 100%;
+    }
+
+    &__branding {
+        display: flex;
+        align-items: center;
+        justify-self: start;
+        min-width: 0;
+
+        a {
+            display: inline-flex;
+            align-items: center;
+            color: inherit;
+        }
+
+    }
+
+    &__logo {
+        display: inline-flex;
+        align-items: center;
+        line-height: 1;
+
+        .custom-logo-link {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .custom-logo,
+        img {
+            display: block;
+            width: 180px;
+            max-width: 100%;
+            height: auto;
+            max-height: 44px;
+            object-fit: contain;
+
+            @include mixins.respond-max(vars.$bp-lg) {
+                width: 160px;
+            }
+        }
+
+    }
+
+    &__site-title {
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: vars.$brand-lime;
+    }
+
+    &__nav {
+        justify-self: center;
+
+        @include mixins.respond-max(vars.$bp-lg) {
+            display: none;
+        }
+    }
+
+    &__menu {
+        @include mixins.flexbox(center, center, row, 0);
+        gap: 34px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        > li > a {
+            display: inline-block;
+            padding: 0;
+            font-size: 11px;
+            line-height: 1;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(vars.$brand-lime, 0.82);
+            transition: color vars.$transition-fast, opacity vars.$transition-fast;
+            position: relative;
+
+            &:hover,
+            &:focus-visible {
+                color: vars.$brand-lime;
+                opacity: 1;
+            }
+
+            &:focus-visible {
+                @include mixins.focus-ring;
+            }
+        }
+
+        > li.current-menu-item > a,
+        > li.current_page_item > a {
+            color: vars.$brand-lime;
+            opacity: 1;
+        }
+
+        > li > a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -6px;
+            height: 1px;
+            background: currentColor;
+            border-radius: 1px;
+            opacity: 0;
+        }
+
+        > li > a:hover::after,
+        > li > a:focus-visible::after,
+        > li.current-menu-item > a::after,
+        > li.current_page_item > a::after {
+            opacity: 1;
+        }
+    }
+
+    &__cta {
+        justify-self: end;
+
+        @include mixins.respond-max(vars.$bp-lg) {
+            display: none;
+        }
+    }
+
+    &__cta-link {
+        @include mixins.flexbox(center, center, row, 10px);
+        width: fit-content;
+        min-height: 38px;
+        padding: 12px 24px;
+        border: 1px solid transparent;
+        border-radius: vars.$radius-pill;
+        font-size: 11px;
+        line-height: 1;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        transition: background vars.$transition-fast, color vars.$transition-fast, border-color vars.$transition-fast, transform vars.$transition-fast;
+        background: vars.$brand-lime;
+        color: vars.$brand-dark;
+        text-decoration: none;
+
+        &:hover {
+            transform: translateY(-1px);
+        }
+
+        &:focus-visible {
+            @include mixins.focus-ring;
+        }
+    }
+
+    &__toggle {
+        display: none;
+        width: 42px;
+        height: 42px;
+        border: 1px solid rgba(vars.$brand-lime, 0.35);
+        border-radius: vars.$radius-pill;
+        background: transparent;
+        color: vars.$brand-lime;
+        position: relative;
+
+        @include mixins.respond-max(vars.$bp-lg) {
+            @include mixins.flexbox(center, center);
+        }
+
+        &:focus-visible {
+            @include mixins.focus-ring;
+        }
+    }
+
+    &__toggle-icon {
+        position: relative;
+        width: 18px;
+        height: 12px;
+        display: block;
+
+        &::before,
+        &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: currentColor;
+            border-radius: 2px;
+            transition: transform vars.$transition-fast, top vars.$transition-fast, opacity vars.$transition-fast;
+        }
+
+        &::before {
+            top: 1px;
+        }
+
+        &::after {
+            top: 9px;
+        }
+    }
+
+    &__panel {
+        display: none;
+        background: vars.$black;
+        border-top: 1px solid rgba(vars.$white, 0.12);
+        padding: 18px 0 22px;
+
+        @include mixins.respond-max(vars.$bp-lg) {
+            display: block;
+        }
+    }
+
+    &__panel-inner {
+        @include mixins.container(vars.$container-wide);
+    }
+
+    &__panel-menu {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 6px;
+
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 46px;
+            padding: 12px 14px;
+            border-radius: vars.$radius-sm;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(vars.$brand-lime, 0.92);
+            transition: background vars.$transition-fast, color vars.$transition-fast;
+
+            &:focus-visible {
+                @include mixins.focus-ring;
+            }
+        }
+
+        .current-menu-item > a,
+        .current-menu-ancestor > a {
+            background: vars.$brand-lime;
+            color: vars.$brand-dark;
+        }
+    }
+
+    &__panel-cta {
+        margin-top: 16px;
+    }
+
+    &__panel-cta-link {
+        @include mixins.flexbox(center, center, row, 10px);
+        width: 100%;
+        min-height: 44px;
+        padding: 13px 28px 12px;
+        border: 1px solid transparent;
+        border-radius: vars.$radius-pill;
+        font-size: 12px;
+        line-height: 1;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        transition: background vars.$transition-fast, color vars.$transition-fast, border-color vars.$transition-fast, transform vars.$transition-fast;
+        background: vars.$brand-lime;
+        color: vars.$brand-dark;
+        justify-content: center;
+        text-decoration: none;
+
+        &:hover {
+            transform: translateY(-1px);
+        }
+
+        &:focus-visible {
+            @include mixins.focus-ring;
+        }
+    }
+}
+
+body.is-navigation-open {
+    overflow: hidden;
+}

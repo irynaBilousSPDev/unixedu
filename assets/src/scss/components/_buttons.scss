@@ -1,0 +1,57 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.btn {
+    @include mixins.flexbox(center, center, row, 10px);
+    width: fit-content;
+    min-height: 44px;
+    padding: 13px 28px 12px;
+    border: 1px solid transparent;
+    border-radius: vars.$radius-pill;
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: background vars.$transition-fast, color vars.$transition-fast, border-color vars.$transition-fast, transform vars.$transition-fast;
+
+    &:hover {
+        transform: translateY(-1px);
+    }
+
+    &:focus-visible {
+        @include mixins.focus-ring;
+    }
+
+    &--lime {
+        background: vars.$brand-lime;
+        color: vars.$brand-dark;
+    }
+
+    &--dark {
+        background: vars.$brand-dark;
+        color: vars.$brand-lime;
+    }
+
+    &--black {
+        background: vars.$black;
+        color: vars.$brand-lime;
+    }
+
+    &--outline-light {
+        border-color: rgba(vars.$white, 0.5);
+        background: rgba(vars.$white, 0.1);
+        color: vars.$white;
+    }
+
+    &--outline-dark {
+        border-color: vars.$brand-dark;
+        background: transparent;
+        color: vars.$brand-dark;
+    }
+}
+
+.btn-row {
+    @include mixins.flexbox(center, flex-start, row, 14px);
+    flex-wrap: wrap;
+}

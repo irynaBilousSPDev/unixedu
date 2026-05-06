@@ -1,0 +1,28 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.logo-strip {
+    padding-block: 70px;
+    background: vars.$gray-section;
+
+    &__inner {
+        @include mixins.container(vars.$container-max);
+    }
+
+    &__label {
+        @include mixins.eyebrow(rgba(vars.$brand-dark, 0.45));
+        text-align: center;
+    }
+
+    &__grid {
+        @include mixins.flexbox(center, center, row, clamp(28px, 5vw, 76px));
+        flex-wrap: wrap;
+    }
+
+    &__item {
+        max-height: 54px;
+        width: auto;
+        object-fit: contain;
+        filter: grayscale(1);
+    }
+}

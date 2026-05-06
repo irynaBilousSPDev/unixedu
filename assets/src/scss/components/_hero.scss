@@ -1,0 +1,91 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.page-hero {
+    position: relative;
+    min-height: 860px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: vars.$gray-section;
+
+    @include mixins.respond-max(vars.$bp-lg) {
+        min-height: auto;
+        padding-block: 92px 150px;
+    }
+
+    &__bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+
+        img {
+            @include mixins.image-cover;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(vars.$white, 0.98) 0%, rgba(vars.$white, 0.88) 34%, rgba(vars.$white, 0.18) 72%);
+        }
+    }
+
+    &__shape {
+        position: absolute;
+        right: 9%;
+        bottom: 10%;
+        width: min(34vw, 560px);
+        opacity: 0.82;
+        pointer-events: none;
+
+        @include mixins.respond-max(vars.$bp-lg) {
+            right: -60px;
+            bottom: 20px;
+            width: 320px;
+        }
+    }
+
+    &__inner {
+        @include mixins.container(vars.$container-wide);
+        position: relative;
+        z-index: 1;
+    }
+
+    &__content {
+        max-width: 880px;
+    }
+
+    &__breadcrumb,
+    &__eyebrow {
+        @include mixins.eyebrow(vars.$brand-lime);
+    }
+
+    &__title {
+        @include mixins.heading-style(clamp(52px, 5.4vw, 104px), 0.96, 800, vars.$black);
+        max-width: 970px;
+        margin-bottom: 26px;
+    }
+
+    &__text {
+        @include mixins.body-copy(20px, rgba(vars.$brand-dark, 0.82));
+        max-width: 760px;
+        margin-bottom: 34px;
+    }
+
+    &--dark {
+        color: vars.$white;
+
+        .page-hero__bg::after {
+            background: linear-gradient(90deg, rgba(vars.$black, 0.72) 0%, rgba(vars.$black, 0.45) 42%, rgba(vars.$black, 0.12) 100%);
+        }
+
+        .page-hero__title {
+            color: vars.$white;
+        }
+
+        .page-hero__text {
+            color: rgba(vars.$white, 0.84);
+        }
+    }
+}

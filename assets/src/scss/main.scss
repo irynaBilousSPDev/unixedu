@@ -1,0 +1,33 @@
+@use 'abstracts/variables';
+@use 'abstracts/functions';
+@use 'abstracts/mixins';
+
+@use 'base/reset';
+@use 'base/typography';
+@use 'base/global';
+
+@use 'layout/container';
+@use 'layout/header';
+@use 'layout/footer';
+@use 'layout/sections';
+
+@use 'components/buttons';
+@use 'components/breadcrumbs';
+@use 'components/hero';
+@use 'components/stats';
+@use 'components/cards';
+@use 'components/process';
+@use 'components/feature-list';
+@use 'components/logos';
+@use 'components/tabs';
+@use 'components/modals';
+@use 'components/tables';
+@use 'components/forms';
+@use 'components/cta';
+
+@use 'blocks/index';
+
+@use 'pages/front-page';
+@use 'pages/for-students';
+@use 'pages/for-partners';
+@use 'pages/for-institutions';

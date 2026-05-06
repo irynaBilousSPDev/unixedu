@@ -1,0 +1,98 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid vars.$border-soft;
+    border-left: 1px solid vars.$border-soft;
+
+    @include mixins.respond-max(vars.$bp-lg) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include mixins.respond-max(vars.$bp-sm) {
+        grid-template-columns: 1fr;
+    }
+
+    &__item {
+        padding: 44px 36px;
+        border-right: 1px solid vars.$border-soft;
+        border-bottom: 1px solid vars.$border-soft;
+    }
+
+    &__number {
+        display: block;
+        margin-bottom: 34px;
+        font-size: 36px;
+        line-height: 1;
+        font-weight: 800;
+        color: vars.$brand-lime;
+    }
+
+    &__title {
+        @include mixins.heading-style(18px, 1.18, 800, vars.$brand-dark);
+        margin-bottom: 16px;
+    }
+
+    &__text {
+        @include mixins.body-copy(15px, vars.$text-muted);
+    }
+
+    &__link {
+        display: inline-flex;
+        margin-top: 22px;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: vars.$brand-dark;
+    }
+}
+
+.process-band {
+    position: relative;
+    min-height: 720px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background: vars.$gray-section;
+
+    &__bg {
+        position: absolute;
+        inset: 0;
+
+        img {
+            @include mixins.image-cover;
+        }
+    }
+
+    &__content {
+        @include mixins.container(vars.$container-wide);
+        position: relative;
+        z-index: 2;
+        padding-bottom: 90px;
+    }
+
+    &__title {
+        @include mixins.heading-style(clamp(42px, 4vw, 76px), 0.98, 800, vars.$brand-dark);
+        max-width: 720px;
+        margin-bottom: 70px;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        background: rgba(vars.$white, 0.86);
+        backdrop-filter: blur(8px);
+
+        @include mixins.respond-max(vars.$bp-lg) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @include mixins.respond-max(vars.$bp-sm) {
+            grid-template-columns: 1fr;
+        }
+    }
+}

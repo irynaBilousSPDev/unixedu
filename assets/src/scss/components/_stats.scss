@@ -1,0 +1,58 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.stats-strip {
+    @include mixins.container(980px);
+    position: relative;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: -84px;
+    padding: 34px 54px;
+    border-radius: vars.$radius-md;
+    background: vars.$brand-dark;
+    color: vars.$white;
+
+    @include mixins.respond-max(vars.$bp-md) {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        margin-top: -70px;
+        padding: 30px;
+    }
+
+    &__item {
+        min-width: 0;
+    }
+
+    &__value {
+        display: block;
+        font-size: clamp(34px, 3vw, 52px);
+        line-height: 1;
+        font-weight: 800;
+        color: vars.$brand-lime;
+        letter-spacing: -0.03em;
+    }
+
+    &__label {
+        display: block;
+        margin-top: 8px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(vars.$white, 0.72);
+    }
+
+    &--four {
+        grid-template-columns: repeat(4, 1fr);
+
+        @include mixins.respond-max(vars.$bp-lg) {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+        }
+
+        @include mixins.respond-max(vars.$bp-sm) {
+            grid-template-columns: 1fr;
+        }
+    }
+}

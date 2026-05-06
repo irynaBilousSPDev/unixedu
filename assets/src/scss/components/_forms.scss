@@ -1,0 +1,72 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.form-inline {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+
+    @include mixins.respond-max(vars.$bp-sm) {
+        grid-template-columns: 1fr;
+    }
+
+    &__input {
+        min-height: 48px;
+        width: 100%;
+        padding: 0 22px;
+        border: 1px solid rgba(vars.$white, 0.12);
+        border-radius: vars.$radius-pill;
+        background: rgba(vars.$white, 0.08);
+        color: vars.$white;
+
+        &::placeholder {
+            color: rgba(vars.$white, 0.46);
+        }
+
+        &:focus {
+            @include mixins.focus-ring;
+        }
+    }
+}
+
+.contact-box {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
+    gap: 24px;
+
+    @include mixins.respond-max(vars.$bp-md) {
+        grid-template-columns: 1fr;
+    }
+
+    &__info,
+    &__form {
+        padding: 40px;
+        border-radius: vars.$radius-sm;
+    }
+
+    &__info {
+        background: vars.$brand-dark;
+        color: vars.$white;
+    }
+
+    &__form {
+        background: vars.$brand-lime-soft;
+    }
+
+    input,
+    textarea {
+        width: 100%;
+        min-height: 42px;
+        margin-bottom: 14px;
+        padding: 0 16px;
+        border: 1px solid vars.$border-soft;
+        border-radius: vars.$radius-xs;
+        background: vars.$white;
+    }
+
+    textarea {
+        min-height: 120px;
+        padding-top: 12px;
+        resize: vertical;
+    }
+}

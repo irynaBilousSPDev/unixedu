@@ -1,0 +1,43 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.site-main {
+    overflow: hidden;
+}
+
+.section {
+    padding-block: 120px;
+
+    @include mixins.respond-max(vars.$bp-lg) {
+        padding-block: 88px;
+    }
+
+    @include mixins.respond-max(vars.$bp-md) {
+        padding-block: 64px;
+    }
+}
+
+.section--gray {
+    background: vars.$gray-section;
+}
+
+.section--lime {
+    background: vars.$brand-lime;
+}
+
+.section--dark {
+    background: vars.$brand-dark;
+    color: vars.$white;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}

@@ -1,0 +1,6 @@
+// Block-level styles live in assets/src/scss/blocks/.
+// Keep this file as the single entry point imported by main.scss.
+
+@use 'hero';
+@use 'who-cards';
+

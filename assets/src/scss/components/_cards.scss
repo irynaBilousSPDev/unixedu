@@ -1,0 +1,145 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.path-grid,
+.segment-grid,
+.tier-grid {
+    display: grid;
+    gap: 24px;
+}
+
+.path-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    @include mixins.respond-max(vars.$bp-lg) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.segment-grid,
+.tier-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    @include mixins.respond-max(vars.$bp-lg) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include mixins.respond-max(vars.$bp-sm) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.path-card,
+.segment-card,
+.tier-card {
+    position: relative;
+    min-width: 0;
+    border-radius: vars.$radius-sm;
+    border: 1px solid vars.$border-soft;
+    background: vars.$brand-lime-soft;
+}
+
+.path-card {
+    min-height: 330px;
+    padding: 40px 38px;
+
+    &--dark {
+        background: vars.$brand-dark;
+        color: vars.$white;
+    }
+
+    &__eyebrow {
+        @include mixins.eyebrow(vars.$brand-lime);
+        margin-bottom: 34px;
+    }
+
+    &__title {
+        @include mixins.heading-style(28px, 1.05, 800, currentColor);
+        margin-bottom: 18px;
+    }
+
+    &__text {
+        @include mixins.body-copy(17px, currentColor);
+        opacity: 0.76;
+        margin-bottom: 28px;
+    }
+
+    &__url {
+        position: absolute;
+        left: 38px;
+        bottom: 28px;
+        font-size: 12px;
+        line-height: 1;
+        color: currentColor;
+        opacity: 0.45;
+    }
+}
+
+.segment-card {
+    min-height: 300px;
+    padding: 34px;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        border-radius: vars.$radius-sm vars.$radius-sm 0 0;
+        background: vars.$brand-lime;
+    }
+
+    &--dark {
+        background: vars.$brand-dark;
+        color: vars.$white;
+    }
+
+    &--lime {
+        background: vars.$brand-lime-card;
+    }
+
+    &__title {
+        @include mixins.heading-style(22px, 1.1, 800, currentColor);
+        margin-bottom: 18px;
+    }
+
+    &__price {
+        display: block;
+        margin-bottom: 14px;
+        font-size: 32px;
+        line-height: 1;
+        font-weight: 800;
+        color: vars.$brand-lime;
+    }
+
+    &__text {
+        @include mixins.body-copy(16px, currentColor);
+        opacity: 0.72;
+    }
+}
+
+.tier-card {
+    padding: 30px;
+    background: vars.$white;
+
+    &__label {
+        display: inline-flex;
+        margin-bottom: 18px;
+        padding: 6px 14px;
+        border-radius: vars.$radius-pill;
+        background: vars.$brand-lime;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+
+    &__title {
+        @include mixins.heading-style(21px, 1.15, 800, vars.$brand-dark);
+        margin-bottom: 12px;
+    }
+
+    &__text {
+        @include mixins.body-copy(15px, vars.$text-muted);
+    }
+}

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "unixedu/hero",
+  "title": "Hero",
+  "category": "design",
+  "icon": "cover-image",
+  "description": "Hero section (Unixedu).",
+  "textdomain": "unixedu",
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true
+  },
+  "attributes": {
+    "variant": { "type": "string", "default": "home" },
+    "theme": { "type": "string", "default": "light" },
+    "showBreadcrumbs": { "type": "boolean", "default": false },
+    "breadcrumbLabel": { "type": "string", "default": "" },
+    "breadcrumbParentLabel": { "type": "string", "default": "" },
+    "breadcrumbParentUrl": { "type": "string", "default": "" },
+    "eyebrow": { "type": "string", "default": "GLOBAL STUDENT MOBILITY PLATFORM" },
+    "titleLine1": { "type": "string", "default": "EVERYTHING YOU NEED TO" },
+    "titleLine2": { "type": "string", "default": "CHOOSE THE RIGHT" },
+    "titleLine3": { "type": "string", "default": "UNIVERSITY." },
+    "titleLine4": { "type": "string", "default": "" },
+    "highlightMode": { "type": "string", "default": "limeOnDark" },
+    "highlightLine": { "type": "number", "default": 1 },
+    "text": {
+      "type": "string",
+      "default": "One platform connecting students, agents and institutions across 50 countries. Browse, compare and apply — all in one place."
+    },
+    "primaryButtonText": { "type": "string", "default": "FIND UNIVERSITIES" },
+    "primaryButtonUrl": { "type": "string", "default": "#" },
+    "primaryButtonStyle": { "type": "string", "default": "lime" },
+    "secondaryButtonText": { "type": "string", "default": "" },
+    "secondaryButtonUrl": { "type": "string", "default": "" },
+    "secondaryButtonStyle": { "type": "string", "default": "dark" },
+    "showSecondaryButton": { "type": "boolean", "default": false },
+    "heroImageId": { "type": "number", "default": 0 },
+    "heroImageUrl": { "type": "string", "default": "" },
+    "heroImageAlt": { "type": "string", "default": "" },
+    "showSymbolOverlay": { "type": "boolean", "default": true },
+    "showStats": { "type": "boolean", "default": true },
+    "stat1Value": { "type": "string", "default": "9,999+" },
+    "stat1Label": { "type": "string", "default": "PROGRAMMES" },
+    "stat2Value": { "type": "string", "default": "500+" },
+    "stat2Label": { "type": "string", "default": "PARTNER INSTITUTIONS" },
+    "stat3Value": { "type": "string", "default": "50" },
+    "stat3Label": { "type": "string", "default": "COUNTRIES" },
+    "stat4Value": { "type": "string", "default": "" },
+    "stat4Label": { "type": "string", "default": "" },
+    "statsCount": { "type": "number", "default": 3 },
+    "statsBottomOffset": { "type": "number", "default": -80 }
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}
+

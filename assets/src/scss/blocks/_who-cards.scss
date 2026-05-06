@@ -1,0 +1,182 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.unixedu-who-section {
+  padding-block: 118px;
+  background: vars.$white;
+  color: vars.$brand-dark;
+
+  &__head {
+    max-width: 920px;
+    margin-bottom: 58px;
+  }
+
+  &__eyebrow {
+    @include mixins.eyebrow(vars.$brand-dark);
+    margin: 0 0 18px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 14px;
+    font-size: 9px;
+    letter-spacing: 3.15px;
+    font-weight: 800;
+  }
+
+  &__head.has-underline &__eyebrow::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 140px;
+    height: 1px;
+    background: vars.$brand-lime;
+    opacity: 0.9;
+  }
+
+  &__title {
+    margin: 0;
+    font-family: vars.$font-primary;
+    font-size: 48px;
+    line-height: 0.98;
+    font-weight: 800;
+    color: vars.$brand-dark;
+    letter-spacing: -1.04px;
+    text-transform: uppercase;
+
+    @include mixins.respond-max(vars.$bp-md) {
+      font-size: 40px;
+    }
+
+    @include mixins.respond-max(vars.$bp-sm) {
+      font-size: 34px;
+    }
+  }
+
+  &__title-line {
+    display: block;
+  }
+
+  &__text {
+    margin: 18px 0 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: rgba(vars.$brand-dark, 0.55);
+    max-width: 760px;
+  }
+
+  &__grid {
+    margin-top: 54px;
+  }
+}
+
+// Light cards should be white (not lime-soft) in this section.
+.unixedu-who-section .unixedu-who-card:not(.path-card--dark) {
+  background: vars.$white;
+  color: vars.$brand-dark;
+}
+
+.unixedu-who-section .unixedu-who-card:not(.path-card--dark) .path-card__title,
+.unixedu-who-section .unixedu-who-card:not(.path-card--dark) .path-card__text,
+.unixedu-who-section .unixedu-who-card:not(.path-card--dark) .path-card__url {
+  color: vars.$brand-dark;
+}
+
+.unixedu-who-section--gray {
+  background: vars.$gray-section;
+}
+
+.unixedu-who-section--black {
+  background: vars.$black;
+  color: vars.$white;
+
+  .unixedu-who-section__eyebrow {
+    color: rgba(vars.$white, 0.75);
+  }
+
+  .unixedu-who-section__title {
+    color: vars.$white;
+  }
+
+  .unixedu-who-section__text {
+    color: rgba(vars.$white, 0.72);
+  }
+}
+
+// Card refinements scoped to this block only (keeps existing card system intact elsewhere).
+.unixedu-who-card {
+  .path-card__eyebrow {
+    font-size: 9px;
+    letter-spacing: 2.7px;
+    opacity: 0.45;
+  }
+
+  .path-card__title {
+    font-size: 22px;
+    line-height: 1.1;
+    text-transform: none;
+    max-width: 230px;
+    font-weight: 700;
+    letter-spacing: -0.22px;
+  }
+
+  .path-card__text {
+    font-size: 13px;
+    line-height: 1.55;
+    opacity: 0.42;
+  }
+
+  // In this design the small URL sits under the button (not absolutely positioned).
+  .path-card__url {
+    position: static;
+    left: auto;
+    bottom: auto;
+    display: block;
+    margin-top: 26px;
+  }
+
+  // thin top accent line like the design
+  &::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -1px;
+    width: 80%;
+    height: 3px;
+    transform: translateX(-50%);
+    background: vars.$brand-lime;
+  }
+
+  // Left/right cards show lime accent.
+  &:not(.unixedu-who-card--dark)::before {
+    background: vars.$brand-lime;
+  }
+
+  &--dark::before {
+    background: vars.$brand-lime;
+  }
+
+  .path-card__eyebrow {
+    max-width: 240px;
+    position: relative;
+    padding-bottom: 14px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+      background: vars.$brand-dark;
+      opacity: 0.08;
+    }
+  }
+
+  // Button rules for this section only.
+  .btn.btn--black {
+    font-size: 11px;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+}
+

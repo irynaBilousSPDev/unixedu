@@ -1,0 +1,30 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+body {
+    font-family: vars.$font-primary;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 400;
+    color: vars.$brand-dark;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin-top: 0;
+}
+
+.section-eyebrow {
+    @include mixins.eyebrow(vars.$brand-dark);
+}
+
+.text-lime {
+    @include mixins.lime-highlight;
+}
