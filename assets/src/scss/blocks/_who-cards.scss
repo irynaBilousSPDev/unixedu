@@ -69,9 +69,23 @@
   }
 }
 
-// Light cards should be white (not lime-soft) in this section.
+// When 2 cards are rendered, center them and avoid a 3-col stretch.
+@media (min-width: #{vars.$bp-lg + 1px}) {
+  .unixedu-who-section--cards-count-2 .unixedu-who-section__grid {
+    grid-template-columns: repeat(2, minmax(0, 420px));
+    justify-content: center;
+  }
+
+  // When 1 card is rendered, keep it left-aligned.
+  .unixedu-who-section--cards-count-1 .unixedu-who-section__grid {
+    grid-template-columns: minmax(0, 420px);
+    justify-content: start;
+  }
+}
+
+// Light cards should be lime-tinted in this section.
 .unixedu-who-section .unixedu-who-card:not(.path-card--dark) {
-  background: vars.$white;
+  background: #f7ffe8;
   color: vars.$brand-dark;
 }
 

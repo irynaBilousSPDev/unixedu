@@ -134,7 +134,7 @@ if ($show_breadcrumbs && '' === trim($breadcrumb_label)) {
 			<?php endif; ?>
 
 			<?php if ($eyebrow !== '') : ?>
-				<p class="unixedu-hero__eyebrow"><?php echo esc_html($eyebrow); ?></p>
+				<p class="unixedu-hero__eyebrow"><?php echo wp_kses(nl2br(esc_html($eyebrow)), ['br' => []]); ?></p>
 			<?php endif; ?>
 
 			<?php
@@ -166,9 +166,9 @@ if ($show_breadcrumbs && '' === trim($breadcrumb_label)) {
 
 						<span class="<?php echo esc_attr(implode(' ', $line_classes)); ?>">
 							<?php if ($is_highlight) : ?>
-								<span class="unixedu-hero__title-highlight"><?php echo esc_html($line); ?></span>
+								<span class="unixedu-hero__title-highlight"><?php echo wp_kses(nl2br(esc_html($line)), ['br' => []]); ?></span>
 							<?php else : ?>
-								<?php echo esc_html($line); ?>
+								<?php echo wp_kses(nl2br(esc_html($line)), ['br' => []]); ?>
 							<?php endif; ?>
 						</span>
 					<?php endforeach; ?>
@@ -176,7 +176,7 @@ if ($show_breadcrumbs && '' === trim($breadcrumb_label)) {
 			<?php endif; ?>
 
 			<?php if ('' !== trim($text)) : ?>
-				<p class="unixedu-hero__text"><?php echo esc_html($text); ?></p>
+				<p class="unixedu-hero__text"><?php echo wp_kses(nl2br(esc_html($text)), ['br' => []]); ?></p>
 			<?php endif; ?>
 
 			<?php

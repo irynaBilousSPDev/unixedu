@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "unixedu/section-header",
+  "title": "Flexible Universal Section",
+  "category": "design",
+  "icon": "heading",
+  "description": "Flexible universal section header (eyebrow + multi-line title + optional text/content).",
+  "textdomain": "unixedu",
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true
+  },
+  "attributes": {
+    "background": { "type": "string", "default": "white" },
+    "renderMode": { "type": "string", "default": "inner" },
+    "maxWidth": { "type": "string", "default": "default" },
+
+    "eyebrow": { "type": "string", "default": "" },
+    "titleLine1": { "type": "string", "default": "" },
+    "titleLine1Style": { "type": "string", "default": "default" },
+    "titleLine2": { "type": "string", "default": "" },
+    "titleLine2Style": { "type": "string", "default": "default" },
+    "titleLine3": { "type": "string", "default": "" },
+    "titleLine3Style": { "type": "string", "default": "default" },
+    "text": { "type": "string", "default": "" },
+    "content": { "type": "string", "default": "" },
+    "contentFontWeight": { "type": "number", "default": 500 }
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}
+

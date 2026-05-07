@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "unixedu/logo-marquee",
+  "title": "Logo Marquee",
+  "category": "design",
+  "icon": "images-alt2",
+  "description": "Simple logo row that becomes an infinite marquee on overflow.",
+  "textdomain": "unixedu",
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true
+  },
+  "attributes": {
+    "background": { "type": "string", "default": "white" },
+    "title": { "type": "string", "default": "" },
+    "logos": { "type": "array", "default": [] },
+    "hasInitializedDefaults": { "type": "boolean", "default": false }
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}
+

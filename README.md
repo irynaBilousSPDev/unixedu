@@ -53,7 +53,23 @@ Blocks are auto-registered by scanning `blocks/*/block.json`.
 Current blocks:
 
 - `unixedu/hero`
-- `unixedu/who-cards`
+- `unixedu/who-cards` (admin title: Audience Cards)
+- `unixedu/process-steps` (Process Steps)
+- `unixedu/logo-marquee` (Logo Marquee)
+- `unixedu/section-header` (admin title: Flexible Universal Section)
+- `unixedu/cta-strip` (CTA Strip)
+
+### Block assets
+
+- **Block JS**: `blocks/<block-name>/index.js` (editor UI, Inspector controls)
+- **Block PHP**: `blocks/<block-name>/render.php` (frontend rendering; dynamic blocks)
+- **Block styles entrypoint**: `assets/src/scss/blocks/_index.scss`
+- **Block JS entrypoint**: `assets/src/js/main.js`
+
+### Static assets used by blocks
+
+- `unixedu/logo-marquee` ships with default logos in:
+  - `static/images/logo-marquee/`
 
 ## Notes
 

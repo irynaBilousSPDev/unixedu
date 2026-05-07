@@ -29,24 +29,28 @@
         options: CARD_TYPE_OPTIONS,
         onChange: (value) => set('Type', value),
       }),
-      wp.element.createElement(TextControl, {
+      wp.element.createElement(TextareaControl, {
         label: 'Eyebrow',
         value: get('Eyebrow'),
+        rows: 2,
         onChange: (value) => set('Eyebrow', value),
       }),
       wp.element.createElement(TextareaControl, {
         label: 'Title',
         value: get('Title'),
+        rows: 3,
         onChange: (value) => set('Title', value),
       }),
       wp.element.createElement(TextareaControl, {
         label: 'Text',
         value: get('Text'),
+        rows: 4,
         onChange: (value) => set('Text', value),
       }),
-      wp.element.createElement(TextControl, {
+      wp.element.createElement(TextareaControl, {
         label: 'Button text',
         value: get('ButtonText'),
+        rows: 2,
         onChange: (value) => set('ButtonText', value),
       }),
       wp.element.createElement(TextControl, {
@@ -54,9 +58,10 @@
         value: get('ButtonUrl'),
         onChange: (value) => set('ButtonUrl', value),
       }),
-      wp.element.createElement(TextControl, {
+      wp.element.createElement(TextareaControl, {
         label: 'Small URL text (bottom)',
         value: get('SmallUrlText'),
+        rows: 2,
         onChange: (value) => set('SmallUrlText', value),
       })
     );
@@ -90,6 +95,11 @@
         },
       ];
 
+      const previewEyebrow = (attrs.eyebrow || '').trim() || 'Eyebrow';
+      const previewTitle1 = (attrs.titleLine1 || '').trim() || 'Section title';
+      const previewTitle2 = (attrs.titleLine2 || '').trim() || '';
+      const previewText = (attrs.text || '').trim() || '';
+
       return wp.element.createElement(
         Fragment,
         null,
@@ -118,6 +128,7 @@
             wp.element.createElement(TextControl, {
               label: 'Eyebrow',
               value: attrs.eyebrow,
+              placeholder: 'Eyebrow',
               onChange: (value) => setAttributes({ eyebrow: value }),
             }),
             wp.element.createElement(ToggleControl, {
@@ -128,6 +139,7 @@
             wp.element.createElement(TextControl, {
               label: 'Title line 1',
               value: attrs.titleLine1,
+              placeholder: 'Section title',
               onChange: (value) => setAttributes({ titleLine1: value }),
             }),
             wp.element.createElement(TextControl, {
@@ -138,6 +150,7 @@
             wp.element.createElement(TextareaControl, {
               label: 'Text',
               value: attrs.text,
+              placeholder: 'Optional text',
               onChange: (value) => setAttributes({ text: value }),
             })
           ),
@@ -158,14 +171,14 @@
             wp.element.createElement(
               'header',
               { className: `unixedu-who-section__head ${attrs.showEyebrowUnderline ? 'has-underline' : ''}` },
-              attrs.eyebrow ? wp.element.createElement('p', { className: 'unixedu-who-section__eyebrow' }, attrs.eyebrow) : null,
+              wp.element.createElement('p', { className: 'unixedu-who-section__eyebrow' }, (attrs.eyebrow || '').trim() ? attrs.eyebrow : previewEyebrow),
               wp.element.createElement(
                 'h2',
                 { className: 'unixedu-who-section__title' },
-                attrs.titleLine1 ? wp.element.createElement('span', { className: 'unixedu-who-section__title-line' }, attrs.titleLine1) : null,
-                attrs.titleLine2 ? wp.element.createElement('span', { className: 'unixedu-who-section__title-line' }, attrs.titleLine2) : null
+                wp.element.createElement('span', { className: 'unixedu-who-section__title-line' }, (attrs.titleLine1 || '').trim() ? attrs.titleLine1 : previewTitle1),
+                previewTitle2 ? wp.element.createElement('span', { className: 'unixedu-who-section__title-line' }, previewTitle2) : null
               ),
-              attrs.text ? wp.element.createElement('p', { className: 'unixedu-who-section__text' }, attrs.text) : null
+              previewText ? wp.element.createElement('p', { className: 'unixedu-who-section__text' }, previewText) : null
             ),
             wp.element.createElement(
               'div',
@@ -178,9 +191,9 @@
                     className: `path-card unixedu-who-card ${c.type === 'dark' ? 'path-card--dark unixedu-who-card--dark' : ''}`,
                     style: { minHeight: '290px' },
                   },
-                  c.eyebrow ? wp.element.createElement('p', { className: 'path-card__eyebrow' }, c.eyebrow) : null,
-                  c.title ? wp.element.createElement('h3', { className: 'path-card__title' }, c.title) : null,
-                  c.text ? wp.element.createElement('p', { className: 'path-card__text' }, c.text) : null,
+                  wp.element.createElement('p', { className: 'path-card__eyebrow' }, c.eyebrow || 'Card eyebrow'),
+                  wp.element.createElement('h3', { className: 'path-card__title' }, c.title || 'Card title'),
+                  wp.element.createElement('p', { className: 'path-card__text' }, c.text || 'Card text'),
                   c.buttonText ? wp.element.createElement('span', { className: `btn ${c.type === 'dark' ? 'btn--lime' : 'btn--black'}` }, c.buttonText) : null
                 )
               )

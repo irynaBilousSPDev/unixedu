@@ -24,6 +24,24 @@ if (!defined('ABSPATH')) {
 
 <header class="site-header" role="banner">
 	<div class="site-header__inner">
+		<?php
+		$unixedu_cta_url = '';
+		$unixedu_cta_title = '';
+
+		if (has_nav_menu('header_cta')) {
+			// Header CTA is intentionally rendered as a single button (first menu item).
+			$unixedu_locations = get_nav_menu_locations();
+			$unixedu_cta_menu_id = isset($unixedu_locations['header_cta']) ? (int) $unixedu_locations['header_cta'] : 0;
+			$unixedu_cta_items = $unixedu_cta_menu_id ? wp_get_nav_menu_items($unixedu_cta_menu_id) : [];
+
+			if (!empty($unixedu_cta_items) && is_array($unixedu_cta_items)) {
+				$unixedu_cta_item = $unixedu_cta_items[0];
+				$unixedu_cta_url = isset($unixedu_cta_item->url) ? (string) $unixedu_cta_item->url : '';
+				$unixedu_cta_title = isset($unixedu_cta_item->title) ? (string) $unixedu_cta_item->title : '';
+			}
+		}
+		?>
+
 		<div class="site-header__branding">
 			<?php if (has_custom_logo()) : ?>
 				<div class="site-header__logo site-header__logo--custom">
@@ -66,29 +84,18 @@ if (!defined('ABSPATH')) {
 			?>
 		</nav>
 
-		<?php if (has_nav_menu('header_cta')) : ?>
+		<?php if ('' !== trim($unixedu_cta_url) && '' !== trim($unixedu_cta_title)) : ?>
 			<div class="site-header__cta">
-				<?php
-				// Header CTA is intentionally rendered as a single button (first menu item).
-				$unixedu_locations = get_nav_menu_locations();
-				$unixedu_cta_menu_id = isset($unixedu_locations['header_cta']) ? (int) $unixedu_locations['header_cta'] : 0;
-				$unixedu_cta_items = $unixedu_cta_menu_id ? wp_get_nav_menu_items($unixedu_cta_menu_id) : [];
-
-				if (!empty($unixedu_cta_items) && is_array($unixedu_cta_items)) {
-					$unixedu_cta_item = $unixedu_cta_items[0];
-					$unixedu_cta_url = isset($unixedu_cta_item->url) ? (string) $unixedu_cta_item->url : '';
-					$unixedu_cta_title = isset($unixedu_cta_item->title) ? (string) $unixedu_cta_item->title : '';
-
-					if ('' !== trim($unixedu_cta_url) && '' !== trim($unixedu_cta_title)) {
-						?>
-						<a class="site-header__cta-link" href="<?php echo esc_url($unixedu_cta_url); ?>">
-							<?php echo esc_html($unixedu_cta_title); ?>
-						</a>
-						<?php
-					}
-				}
-				?>
+				<a class="site-header__cta-link" href="<?php echo esc_url($unixedu_cta_url); ?>">
+					<?php echo esc_html($unixedu_cta_title); ?>
+				</a>
 			</div>
+		<?php endif; ?>
+
+		<?php if ('' !== trim($unixedu_cta_url) && '' !== trim($unixedu_cta_title)) : ?>
+			<a class="site-header__mobile-cta site-header__panel-cta-link" href="<?php echo esc_url($unixedu_cta_url); ?>">
+				<?php echo esc_html($unixedu_cta_title); ?>
+			</a>
 		<?php endif; ?>
 
 		<button
@@ -117,31 +124,6 @@ if (!defined('ABSPATH')) {
 				);
 				?>
 			</nav>
-
-			<?php if (has_nav_menu('header_cta')) : ?>
-				<div class="site-header__panel-cta">
-					<?php
-					// Header CTA as a single button in mobile panel too.
-					$unixedu_locations = get_nav_menu_locations();
-					$unixedu_cta_menu_id = isset($unixedu_locations['header_cta']) ? (int) $unixedu_locations['header_cta'] : 0;
-					$unixedu_cta_items = $unixedu_cta_menu_id ? wp_get_nav_menu_items($unixedu_cta_menu_id) : [];
-
-					if (!empty($unixedu_cta_items) && is_array($unixedu_cta_items)) {
-						$unixedu_cta_item = $unixedu_cta_items[0];
-						$unixedu_cta_url = isset($unixedu_cta_item->url) ? (string) $unixedu_cta_item->url : '';
-						$unixedu_cta_title = isset($unixedu_cta_item->title) ? (string) $unixedu_cta_item->title : '';
-
-						if ('' !== trim($unixedu_cta_url) && '' !== trim($unixedu_cta_title)) {
-							?>
-							<a class="site-header__panel-cta-link" href="<?php echo esc_url($unixedu_cta_url); ?>">
-								<?php echo esc_html($unixedu_cta_title); ?>
-							</a>
-							<?php
-						}
-					}
-					?>
-				</div>
-			<?php endif; ?>
 		</div>
 	</div>
 </header>

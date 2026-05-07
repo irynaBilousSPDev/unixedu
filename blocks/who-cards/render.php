@@ -49,9 +49,31 @@ $cards = [
 	],
 ];
 
+$visible_cards = [];
+foreach ($cards as $card) {
+	// Require BOTH title and text to render a card.
+	if ('' === trim((string) $card['title']) || '' === trim((string) $card['text'])) {
+		continue;
+	}
+	$visible_cards[] = $card;
+}
+
+$cards_count = count($visible_cards);
+$cards_count = ($cards_count >= 1 && $cards_count <= 3) ? $cards_count : 3;
+
 $block_wrapper_attributes = get_block_wrapper_attributes(
 	[
-		'class' => trim('unixedu-who-section who-section unixedu-who-section--' . sanitize_html_class($background)),
+		'class' => trim(
+			implode(
+				' ',
+				[
+					'unixedu-who-section',
+					'who-section',
+					'unixedu-who-section--' . sanitize_html_class($background),
+					'unixedu-who-section--cards-count-' . $cards_count,
+				]
+			)
+		),
 	]
 );
 
@@ -60,27 +82,27 @@ $block_wrapper_attributes = get_block_wrapper_attributes(
 	<div class="container">
 		<header class="<?php echo esc_attr('unixedu-who-section__head' . ($show_eyebrow_underline ? ' has-underline' : '')); ?>">
 			<?php if ('' !== trim($eyebrow)) : ?>
-				<p class="unixedu-who-section__eyebrow"><?php echo esc_html($eyebrow); ?></p>
+				<p class="unixedu-who-section__eyebrow"><?php echo wp_kses(nl2br(esc_html($eyebrow)), ['br' => []]); ?></p>
 			<?php endif; ?>
 
 			<?php if ('' !== trim($title_line_1) || '' !== trim($title_line_2)) : ?>
 				<h2 class="unixedu-who-section__title">
 					<?php if ('' !== trim($title_line_1)) : ?>
-						<span class="unixedu-who-section__title-line"><?php echo esc_html($title_line_1); ?></span>
+						<span class="unixedu-who-section__title-line"><?php echo wp_kses(nl2br(esc_html($title_line_1)), ['br' => []]); ?></span>
 					<?php endif; ?>
 					<?php if ('' !== trim($title_line_2)) : ?>
-						<span class="unixedu-who-section__title-line"><?php echo esc_html($title_line_2); ?></span>
+						<span class="unixedu-who-section__title-line"><?php echo wp_kses(nl2br(esc_html($title_line_2)), ['br' => []]); ?></span>
 					<?php endif; ?>
 				</h2>
 			<?php endif; ?>
 
 			<?php if ('' !== trim($text)) : ?>
-				<p class="unixedu-who-section__text"><?php echo esc_html($text); ?></p>
+				<p class="unixedu-who-section__text"><?php echo wp_kses(nl2br(esc_html($text)), ['br' => []]); ?></p>
 			<?php endif; ?>
 		</header>
 
 		<div class="path-grid unixedu-who-section__grid">
-			<?php foreach ($cards as $card) : ?>
+			<?php foreach ($visible_cards as $card) : ?>
 				<?php
 				$type = in_array($card['type'], ['light', 'dark'], true) ? $card['type'] : 'light';
 				$is_dark = ('dark' === $type);
@@ -94,15 +116,15 @@ $block_wrapper_attributes = get_block_wrapper_attributes(
 
 				<article class="<?php echo esc_attr($card_classes); ?>">
 					<?php if ('' !== trim($card['eyebrow'])) : ?>
-						<p class="path-card__eyebrow"><?php echo esc_html($card['eyebrow']); ?></p>
+						<p class="path-card__eyebrow"><?php echo wp_kses(nl2br(esc_html($card['eyebrow'])), ['br' => []]); ?></p>
 					<?php endif; ?>
 
 					<?php if ('' !== trim($card['title'])) : ?>
-						<h3 class="path-card__title"><?php echo esc_html($card['title']); ?></h3>
+						<h3 class="path-card__title"><?php echo wp_kses(nl2br(esc_html($card['title'])), ['br' => []]); ?></h3>
 					<?php endif; ?>
 
 					<?php if ('' !== trim($card['text'])) : ?>
-						<p class="path-card__text"><?php echo esc_html($card['text']); ?></p>
+						<p class="path-card__text"><?php echo wp_kses(nl2br(esc_html($card['text'])), ['br' => []]); ?></p>
 					<?php endif; ?>
 
 					<?php if ('' !== trim($card['button_text']) && '' !== trim($card['button_url'])) : ?>
@@ -112,7 +134,7 @@ $block_wrapper_attributes = get_block_wrapper_attributes(
 					<?php endif; ?>
 
 					<?php if ('' !== trim($card['small_url_txt'])) : ?>
-						<span class="path-card__url"><?php echo esc_html($card['small_url_txt']); ?></span>
+						<span class="path-card__url"><?php echo wp_kses(nl2br(esc_html($card['small_url_txt'])), ['br' => []]); ?></span>
 					<?php endif; ?>
 				</article>
 			<?php endforeach; ?>

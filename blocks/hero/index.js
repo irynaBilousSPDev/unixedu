@@ -174,29 +174,34 @@
           wp.element.createElement(
             PanelBody,
             { title: 'Content', initialOpen: false },
-            wp.element.createElement(TextControl, {
+            wp.element.createElement(TextareaControl, {
               label: 'Eyebrow',
               value: attrs.eyebrow,
+              rows: 2,
               onChange: (value) => setAttributes({ eyebrow: value }),
             }),
-            wp.element.createElement(TextControl, {
+            wp.element.createElement(TextareaControl, {
               label: 'Title line 1',
               value: attrs.titleLine1,
+              rows: 2,
               onChange: (value) => setAttributes({ titleLine1: value }),
             }),
-            wp.element.createElement(TextControl, {
+            wp.element.createElement(TextareaControl, {
               label: 'Title line 2',
               value: attrs.titleLine2,
+              rows: 2,
               onChange: (value) => setAttributes({ titleLine2: value }),
             }),
-            wp.element.createElement(TextControl, {
+            wp.element.createElement(TextareaControl, {
               label: 'Title line 3',
               value: attrs.titleLine3,
+              rows: 2,
               onChange: (value) => setAttributes({ titleLine3: value }),
             }),
-            wp.element.createElement(TextControl, {
+            wp.element.createElement(TextareaControl, {
               label: 'Title line 4',
               value: attrs.titleLine4,
+              rows: 2,
               onChange: (value) => setAttributes({ titleLine4: value }),
             }),
             wp.element.createElement(TextareaControl, {

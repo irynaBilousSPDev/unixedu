@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "unixedu/cta-strip",
+  "title": "CTA Strip",
+  "category": "design",
+  "icon": "megaphone",
+  "description": "Horizontal call-to-action strip with button.",
+  "textdomain": "unixedu",
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true
+  },
+  "attributes": {
+    "background": { "type": "string", "default": "lime" },
+    "title": { "type": "string", "default": "READY TO START YOUR INTEGRATION?" },
+    "text": { "type": "string", "default": "Get free live information. Sign and running within days." },
+    "buttonText": { "type": "string", "default": "CONTACT US" },
+    "buttonUrl": { "type": "string", "default": "" }
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}
+

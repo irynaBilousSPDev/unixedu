@@ -1,0 +1,102 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.unixedu-cta-strip {
+  padding: 34px 0;
+
+  @include mixins.respond-max(vars.$bp-md) {
+    padding: 28px 0;
+  }
+
+  &__inner {
+    @include mixins.container(vars.$container-wide);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 24px;
+
+    @include mixins.respond-max(vars.$bp-md) {
+      grid-template-columns: 1fr;
+      justify-items: start;
+      gap: 16px;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 52px;
+    line-height: 1.05;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+
+    @include mixins.respond-max(vars.$bp-lg) {
+      font-size: 40px;
+      line-height: 1.08;
+    }
+
+    @include mixins.respond-max(vars.$bp-md) {
+      font-size: 30px;
+      line-height: 1.12;
+    }
+
+    @include mixins.respond-max(vars.$bp-sm) {
+      font-size: 26px;
+    }
+  }
+
+  &__text {
+    margin: 6px 0 0;
+    font-size: 13px;
+    line-height: 1.6;
+    opacity: 0.72;
+    max-width: 640px;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 12px 18px;
+    border-radius: vars.$radius-pill;
+    font-size: 10px;
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+
+  &--lime {
+    background: vars.$brand-lime;
+    color: vars.$brand-dark;
+
+    .unixedu-cta-strip__button {
+      background: vars.$brand-dark;
+      color: vars.$brand-lime;
+    }
+  }
+
+  &--black {
+    background: vars.$black;
+    color: vars.$white;
+
+    .unixedu-cta-strip__text {
+      opacity: 0.72;
+    }
+
+    .unixedu-cta-strip__button {
+      background: #c8ff00;
+      color: #0d1a05;
+    }
+  }
+}
+

@@ -1,0 +1,150 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.unixedu-logo-marquee {
+  padding: 80px 0;
+
+  @include mixins.respond-max(vars.$bp-lg) {
+    padding: 64px 0;
+  }
+
+  @include mixins.respond-max(vars.$bp-md) {
+    padding: 52px 0;
+  }
+
+  &__inner {
+    @include mixins.container(vars.$container-wide);
+  }
+
+  &__title {
+    margin: 0 0 80px;
+    text-align: center;
+    font-size: 9px;
+    line-height: 1.2;
+    letter-spacing: 3.15px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #0d1a05;
+    opacity: 1;
+  }
+
+  &__viewport {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  &__track {
+    display: inline-flex;
+    align-items: center;
+    gap: 44px;
+    width: max-content;
+    will-change: transform;
+
+    animation: none;
+
+    @include mixins.respond-max(vars.$bp-md) {
+      gap: 28px;
+    }
+  }
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    text-decoration: none;
+  }
+
+  &__img {
+    display: block;
+    height: 60px;
+    width: auto;
+    max-width: 190px;
+    object-fit: contain;
+    filter: grayscale(0);
+    opacity: 0.95;
+
+    @include mixins.respond-max(vars.$bp-md) {
+      height: 52px;
+      max-width: 160px;
+    }
+  }
+
+  &__ph {
+    width: 120px;
+    height: 28px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  &--white {
+    background: vars.$white;
+    color: vars.$brand-dark;
+  }
+
+  &--light-gray {
+    background: #f5f5f5;
+    color: vars.$brand-dark;
+  }
+
+  &--black {
+    background: vars.$black;
+    color: vars.$white;
+
+    .unixedu-logo-marquee__title {
+      color: rgba(vars.$white, 0.85);
+      opacity: 1;
+    }
+
+    .unixedu-logo-marquee__ph {
+      background: rgba(255, 255, 255, 0.14);
+    }
+  }
+
+  &--marquee {
+    .unixedu-logo-marquee__track {
+      animation: unixedu-logo-marquee-scroll 34s linear infinite;
+      animation-play-state: running;
+
+      @include mixins.respond-max(vars.$bp-md) {
+        animation-duration: 26s;
+      }
+    }
+
+    &:hover .unixedu-logo-marquee__track,
+    &:focus-within .unixedu-logo-marquee__track {
+      animation-play-state: paused;
+    }
+  }
+
+  &--static {
+    .unixedu-logo-marquee__viewport {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+
+@keyframes unixedu-logo-marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .unixedu-logo-marquee__track {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+

@@ -1,0 +1,476 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.wp-block-unixedu-process-steps {
+  position: relative;
+}
+
+.unixedu-process {
+  position: relative;
+  overflow: hidden;
+  padding: 86px 0 92px;
+
+  @include mixins.respond-max(vars.$bp-lg) {
+    padding: 64px 0 72px;
+  }
+
+  @include mixins.respond-max(vars.$bp-md) {
+    padding: 54px 0 62px;
+  }
+
+  &__background {
+    position: absolute;
+    inset: 0;
+    background-image: var(--unixedu-process-bg);
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 1);
+  }
+
+  &__inner {
+    @include mixins.container(vars.$container-wide);
+    position: relative;
+    z-index: 1;
+  }
+
+  &__head {
+    max-width: 980px;
+    margin-bottom: 46px;
+
+    @include mixins.respond-max(vars.$bp-lg) {
+      margin-bottom: 34px;
+    }
+  }
+
+  &__eyebrow {
+    margin: 0 0 10px;
+    font-size: 11px;
+    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.72;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 44px;
+    line-height: 1.06;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+
+    &:has(.unixedu-process__title-line--lime-on-dark) {
+      line-height: 1.5;
+    }
+
+    @include mixins.respond-max(vars.$bp-lg) {
+      font-size: 38px;
+    }
+
+    @include mixins.respond-max(vars.$bp-md) {
+      font-size: 32px;
+    }
+  }
+
+  // Fallback for browsers without :has()
+  &--title-mixed .unixedu-process__title {
+    line-height: 1.5;
+  }
+
+  &__title-line {
+    display: block;
+
+    &--default {
+      color: inherit;
+    }
+
+    &--lime {
+      color: vars.$brand-lime;
+    }
+
+    &--white {
+      color: vars.$white;
+    }
+
+    &--lime-on-dark {
+      display: inline;
+      background: vars.$brand-lime;
+      color: vars.$brand-dark;
+      padding: 0.06em 0.18em;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+  }
+
+  &__intro {
+    margin: 14px 0 0;
+    max-width: 720px;
+    font-size: 13px;
+    line-height: 1.65;
+    opacity: 0.8;
+  }
+
+  &__cards {
+    position: relative;
+  }
+
+  &__cards.is-panel {
+    background: rgba(255, 255, 255, 0.79);
+    padding: 50px 100px;
+    border-radius: 0;
+
+    @include mixins.respond-max(vars.$bp-lg) {
+      padding: 36px 32px;
+    }
+
+    @include mixins.respond-max(vars.$bp-md) {
+      padding: 26px 18px;
+    }
+  }
+
+  &__cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+
+    @include mixins.respond-max(vars.$bp-lg) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    @include mixins.respond-max(vars.$bp-md) {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+  }
+
+  // When fewer than 4 cards are rendered, keep them centered and not overly wide.
+  &--cards-count-1 &__cards-grid,
+  &--cards-count-2 &__cards-grid,
+  &--cards-count-3 &__cards-grid {
+    justify-content: center;
+    gap: 18px;
+
+    @include mixins.respond-max(vars.$bp-lg) {
+      justify-content: stretch;
+    }
+  }
+
+  @media (min-width: #{vars.$bp-lg + 1px}) {
+    &--cards-count-1 &__cards-grid {
+      grid-template-columns: minmax(0, 320px);
+      width: fit-content;
+      margin-inline: auto;
+    }
+
+    &--cards-count-2 &__cards-grid {
+      grid-template-columns: repeat(2, minmax(0, 320px));
+    }
+
+    &--cards-count-3 &__cards-grid {
+      grid-template-columns: repeat(3, minmax(0, 320px));
+    }
+
+    // In these cases, use normal per-card borders (no shared outer grid border).
+    &--cards-count-1 &__cards-grid,
+    &--cards-count-2 &__cards-grid,
+    &--cards-count-3 &__cards-grid {
+      border: 0;
+    }
+
+    // If cards surface is a panel, keep the panel sized to content for 1–3 cards.
+    &.unixedu-process--layout-four-columns.unixedu-process--cards-count-1 .unixedu-process__cards.is-panel,
+    &.unixedu-process--layout-four-columns.unixedu-process--cards-count-2 .unixedu-process__cards.is-panel,
+    &.unixedu-process--layout-four-columns.unixedu-process--cards-count-3 .unixedu-process__cards.is-panel {
+      width: fit-content;
+      max-width: 100%;
+      margin-inline: auto;
+    }
+
+    // Only for 4-column layout with 1 visible card, keep default alignment (not centered).
+    &.unixedu-process--layout-four-columns.unixedu-process--cards-count-1 .unixedu-process__cards.is-panel {
+      margin-inline: initial;
+    }
+
+    &.unixedu-process--layout-four-columns.unixedu-process--cards-count-1 .unixedu-process__cards-grid {
+      margin-inline: initial;
+    }
+
+    &--cards-count-1 &__card,
+    &--cards-count-2 &__card,
+    &--cards-count-3 &__card {
+      border: 1px solid rgba(13, 26, 5, 0.08);
+    }
+
+    &.unixedu-process--resolved-tone-light.unixedu-process--cards-count-1 &__card,
+    &.unixedu-process--resolved-tone-light.unixedu-process--cards-count-2 &__card,
+    &.unixedu-process--resolved-tone-light.unixedu-process--cards-count-3 &__card {
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    // Strong override: if fewer than 4 cards, never use the 4-col divider frame.
+    &.unixedu-process--layout-four-columns.unixedu-process--cards-count-1 .unixedu-process__cards-grid,
+    &.unixedu-process--layout-four-columns.unixedu-process--cards-count-2 .unixedu-process__cards-grid,
+    &.unixedu-process--layout-four-columns.unixedu-process--cards-count-3 .unixedu-process__cards-grid {
+      border: 0;
+    }
+
+    &.unixedu-process--layout-four-columns.unixedu-process--cards-count-1 .unixedu-process__card,
+    &.unixedu-process--layout-four-columns.unixedu-process--cards-count-2 .unixedu-process__card,
+    &.unixedu-process--layout-four-columns.unixedu-process--cards-count-3 .unixedu-process__card {
+      border: 1px solid rgba(13, 26, 5, 0.08);
+      border-left: 1px solid rgba(13, 26, 5, 0.08);
+    }
+
+    &.unixedu-process--layout-four-columns.unixedu-process--cards-count-1 .unixedu-process__card:first-child,
+    &.unixedu-process--layout-four-columns.unixedu-process--cards-count-2 .unixedu-process__card:first-child,
+    &.unixedu-process--layout-four-columns.unixedu-process--cards-count-3 .unixedu-process__card:first-child {
+      border-left: 1px solid rgba(13, 26, 5, 0.08);
+    }
+
+    &.unixedu-process--resolved-tone-light.unixedu-process--layout-four-columns.unixedu-process--cards-count-1 .unixedu-process__card,
+    &.unixedu-process--resolved-tone-light.unixedu-process--layout-four-columns.unixedu-process--cards-count-2 .unixedu-process__card,
+    &.unixedu-process--resolved-tone-light.unixedu-process--layout-four-columns.unixedu-process--cards-count-3 .unixedu-process__card {
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+  }
+
+  &__card {
+    padding: 18px 22px 18px;
+    border: 1px solid rgba(13, 26, 5, 0.08);
+    background: transparent;
+    min-height: 190px;
+
+    @include mixins.respond-max(vars.$bp-lg) {
+      border-radius: 12px;
+      min-height: 170px;
+    }
+  }
+
+  // Desktop inner separators only for 4-column layout (single row dividers).
+  @media (min-width: #{vars.$bp-lg + 1px}) {
+    &--layout-four-columns {
+      .unixedu-process__cards-grid {
+        border: 1px solid rgba(13, 26, 5, 0.08);
+      }
+
+      .unixedu-process__card {
+        border: 0;
+        border-left: 1px solid rgba(13, 26, 5, 0.08);
+      }
+
+      .unixedu-process__card:first-child {
+        border-left: 0;
+      }
+    }
+  }
+
+  &--resolved-tone-light {
+    @media (min-width: #{vars.$bp-lg + 1px}) {
+      &.unixedu-process--layout-two-columns .unixedu-process__card,
+      &.unixedu-process--layout-stacked .unixedu-process__card,
+      &.unixedu-process--layout-four-columns .unixedu-process__cards-grid {
+        border-color: rgba(255, 255, 255, 0.12);
+      }
+    }
+  }
+
+  &__number {
+    font-size: 26px;
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: #c8ff00;
+    margin-bottom: 10px;
+  }
+
+  &__tier {
+    font-size: 9px;
+    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: 3.15px;
+    text-transform: uppercase;
+    opacity: 0.55;
+    margin-bottom: 12px;
+  }
+
+  &__card-title {
+    margin: 0 0 8px;
+    font-size: 12px;
+    line-height: 1.25;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 26px;
+    padding: 6px 12px;
+    border-radius: 11px;
+    font-size: 11px;
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 12px;
+    width: fit-content;
+    max-width: 100%;
+  }
+
+  &__card-text {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.6;
+    opacity: 0.78;
+  }
+
+  &__card-link {
+    display: inline-flex;
+    margin-top: 14px;
+    font-size: 10px;
+    line-height: 1.2;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: inherit;
+    text-decoration: none;
+    opacity: 0.38;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &--bg-white {
+    background: vars.$white;
+    color: vars.$brand-dark;
+  }
+
+  &--bg-light-gray {
+    background: #f5f5f5;
+    color: vars.$brand-dark;
+
+    .unixedu-process__card-link {
+      color: #0d1a05;
+    }
+  }
+
+  &--bg-black {
+    background: vars.$black;
+    color: vars.$white;
+  }
+
+  &--bg-image,
+  &--bg-image-dark {
+    background: vars.$black;
+    color: vars.$white;
+  }
+
+  &--text-light {
+    color: vars.$white;
+
+    .unixedu-process__eyebrow,
+    .unixedu-process__intro,
+    .unixedu-process__card-text {
+      opacity: 0.82;
+    }
+
+    .unixedu-process__card {
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+  }
+
+  &--text-dark {
+    color: vars.$brand-dark;
+
+    .unixedu-process__card {
+      border-color: rgba(13, 26, 5, 0.08);
+    }
+  }
+
+  // New modifier naming (requirements): bg/surface/tone/layout.
+  &--surface-panel {
+    .unixedu-process__cards {
+      background: rgba(255, 255, 255, 0.79);
+      padding: 50px 100px;
+      border-radius: 0;
+      width: auto;
+    }
+
+    @include mixins.respond-max(vars.$bp-lg) {
+      .unixedu-process__cards {
+        padding: 36px 32px;
+      }
+    }
+
+    @include mixins.respond-max(vars.$bp-md) {
+      .unixedu-process__cards {
+        padding: 26px 18px;
+      }
+    }
+  }
+
+  &--layout-two-columns {
+    .unixedu-process__cards-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    @include mixins.respond-max(vars.$bp-md) {
+      .unixedu-process__cards-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+    }
+  }
+
+  &--layout-stacked {
+    .unixedu-process__cards-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+  }
+
+  // Tone resolution is applied via --resolved-tone-*, SCSS keys for visuals.
+  &--resolved-tone-light {
+    color: vars.$white;
+
+    .unixedu-process__card {
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .unixedu-process__card-text,
+    .unixedu-process__intro,
+    .unixedu-process__eyebrow {
+      opacity: 0.82;
+    }
+  }
+
+  &--resolved-tone-dark {
+    color: vars.$brand-dark;
+
+    .unixedu-process__card {
+      border-color: rgba(13, 26, 5, 0.08);
+    }
+  }
+
+  &__badge--dark {
+    background: #0d1a05;
+    color: #c8ff00;
+  }
+
+  &__badge--lime {
+    background: #c8ff00;
+    color: #0d1a05;
+  }
+}
+
