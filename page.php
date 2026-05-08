@@ -20,9 +20,16 @@ get_header();
 		the_post();
 		?>
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-			<header class="entry-header">
-				<h1 class="entry-title"><?php echo esc_html(get_the_title()); ?></h1>
-			</header>
+			<?php
+			// If the page already includes the Hero block, don't duplicate the page title above it.
+			$has_hero_block = function_exists('has_block') ? has_block('unixedu/hero', get_the_ID()) : false;
+			?>
+
+			<?php if (!$has_hero_block) : ?>
+				<header class="entry-header">
+					<h1 class="entry-title"><?php echo esc_html(get_the_title()); ?></h1>
+				</header>
+			<?php endif; ?>
 
 			<div class="entry-content">
 				<?php the_content(); ?>

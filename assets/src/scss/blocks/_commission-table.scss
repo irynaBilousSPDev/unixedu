@@ -1,0 +1,97 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.unixedu-commission-table {
+  &--bg-white {
+    background: vars.$white;
+    color: vars.$brand-dark;
+  }
+
+  &--bg-light-gray {
+    background: vars.$gray-section;
+    color: vars.$brand-dark;
+  }
+
+  &--bg-black {
+    background: vars.$black;
+    color: vars.$white;
+
+    .unixedu-section-header__eyebrow {
+      color: rgba(vars.$white, 0.75);
+      opacity: 1;
+    }
+
+    // On black background, don't fade table text.
+    .commission-table tbody td {
+      opacity: 1;
+      color: inherit;
+    }
+  }
+
+  padding: 86px 0 92px;
+
+  @include mixins.respond-max(vars.$bp-lg) {
+    padding: 64px 0 72px;
+  }
+
+  @include mixins.respond-max(vars.$bp-md) {
+    padding: 54px 0 62px;
+  }
+
+  &__inner {
+    @include mixins.container(vars.$container-wide);
+  }
+
+  &__table-wrap {
+    margin-top: 34px;
+
+    @include mixins.respond-max(vars.$bp-lg) {
+      margin-top: 26px;
+    }
+  }
+
+  &__footnote {
+    margin: 1rem 0 0;
+    padding-left: 28px;
+    font-size: 11px;
+    line-height: 1.35;
+    color: #0d1a05;
+    opacity: 0.38;
+    max-width: 980px;
+  }
+
+  &--bg-light-gray &__footnote {
+    opacity: 1;
+  }
+
+  // Zebra striping only for white layout background.
+  &--bg-white {
+    .commission-table tbody tr:nth-child(odd):not(.is-highlighted) td {
+      background: #f7ffe8;
+    }
+
+    .commission-table tbody tr:nth-child(even):not(.is-highlighted) td {
+      background: vars.$white;
+    }
+  }
+
+  // Simple editor-only layout helpers.
+  &.is-editor-preview &__editor {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px dashed rgba(13, 26, 5, 0.18);
+  }
+
+  &.is-editor-preview &__row-editor {
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(13, 26, 5, 0.08);
+  }
+
+  &.is-editor-preview &__editor-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+}
+

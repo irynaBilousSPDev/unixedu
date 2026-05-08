@@ -1,0 +1,54 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "unixedu/feature-list-media",
+  "title": "Feature List + Media",
+  "category": "unixedu",
+  "icon": "editor-ul",
+  "description": "Section header + 2-column feature list with left accent border, optional media image and logo overlay.",
+  "textdomain": "unixedu",
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true
+  },
+  "attributes": {
+    "background": { "type": "string", "default": "white" },
+    "accent": { "type": "string", "default": "lime" },
+    "accentScheme": { "type": "string", "default": "all-lime" },
+    "showAccent": { "type": "boolean", "default": true },
+    "accentWidth": { "type": "number", "default": 6 },
+    "accentGap": { "type": "number", "default": 20 },
+    "listColumns": { "type": "number", "default": 2 },
+    "showDividers": { "type": "boolean", "default": true },
+
+    "eyebrow": { "type": "string", "default": "" },
+    "titleLine1": { "type": "string", "default": "" },
+    "titleLine1Style": { "type": "string", "default": "default" },
+    "titleLine2": { "type": "string", "default": "" },
+    "titleLine2Style": { "type": "string", "default": "default" },
+    "titleLine3": { "type": "string", "default": "" },
+    "titleLine3Style": { "type": "string", "default": "default" },
+    "text": { "type": "string", "default": "" },
+
+    "items": { "type": "array", "default": [] },
+
+    "showMedia": { "type": "boolean", "default": true },
+    "mediaImageId": { "type": "number", "default": 0 },
+    "mediaImageUrl": { "type": "string", "default": "" },
+    "mediaImageAlt": { "type": "string", "default": "" },
+
+    "showLogo": { "type": "boolean", "default": true },
+    "logoImageId": { "type": "number", "default": 0 },
+    "logoImageUrl": { "type": "string", "default": "" },
+    "logoImageAlt": { "type": "string", "default": "" },
+    "logoPosition": { "type": "string", "default": "top-right" }
+    ,
+    "showItemIcon": { "type": "boolean", "default": false },
+    "itemIconId": { "type": "number", "default": 0 },
+    "itemIconUrl": { "type": "string", "default": "" },
+    "itemIconAlt": { "type": "string", "default": "" }
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}
+

@@ -17,6 +17,7 @@ $unixedu_includes = [
 	get_template_directory() . '/inc/helpers.php',
 	get_template_directory() . '/inc/gutenberg.php',
 	get_template_directory() . '/inc/blocks.php',
+	
 ];
 
 foreach ($unixedu_includes as $unixedu_file) {

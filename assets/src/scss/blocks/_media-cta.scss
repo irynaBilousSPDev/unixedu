@@ -1,0 +1,120 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.unixedu-media-cta {
+  padding: 86px 0 92px;
+  background: vars.$white;
+  color: vars.$brand-dark;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+
+  @include mixins.respond-max(vars.$bp-lg) {
+    padding: 64px 0 72px;
+  }
+
+  @include mixins.respond-max(vars.$bp-md) {
+    padding: 54px 0 62px;
+  }
+
+  &--bg-white {
+    background-color: vars.$white;
+  }
+
+  &--bg-light-gray {
+    background-color: vars.$gray-section;
+  }
+
+  &--bg-black {
+    background-color: vars.$black;
+    color: vars.$white;
+
+    .unixedu-section-header__eyebrow {
+      color: rgba(vars.$white, 0.75);
+      opacity: 1;
+    }
+
+    .unixedu-media-cta__text {
+      color: rgba(vars.$white, 0.72);
+    }
+  }
+
+  &--bg-image {
+    background-color: vars.$gray-section;
+  }
+
+  &__inner {
+    @include mixins.container(vars.$container-wide);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    min-height: 520px;
+
+    @include mixins.respond-max(vars.$bp-lg) {
+      grid-template-columns: 1fr;
+      min-height: 420px;
+    }
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+  }
+
+  &--content-left &__content {
+    text-align: left;
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  &--content-center &__content {
+    margin-inline: auto;
+    text-align: center;
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  &--content-right &__content {
+    text-align: left;
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  &__text {
+    margin: 18px 0 0;
+    max-width: 560px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: rgba(13, 26, 5, 0.55);
+  }
+
+  &--content-center &__text {
+    margin-inline: auto;
+  }
+
+  &--content-right &__text {
+    margin-left: auto;
+  }
+
+  &__actions {
+    margin-top: 22px;
+  }
+
+  &--content-center &__actions {
+    display: flex;
+    justify-content: center;
+  }
+
+  @include mixins.respond-max(vars.$bp-lg) {
+    &--content-left &__content,
+    &--content-center &__content,
+    &--content-right &__content {
+      grid-column: 1;
+      justify-self: start;
+      margin-inline: 0;
+      max-width: 720px;
+    }
+  }
+}
+

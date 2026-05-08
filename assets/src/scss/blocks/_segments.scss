@@ -1,0 +1,146 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.unixedu-segments {
+  &--bg-white {
+    background: vars.$white;
+    color: vars.$brand-dark;
+  }
+
+  &--bg-light-gray {
+    background: vars.$gray-section;
+    color: vars.$brand-dark;
+  }
+
+  &--bg-black {
+    background: vars.$black;
+    color: vars.$white;
+
+    .unixedu-section-header__eyebrow {
+      color: rgba(vars.$white, 0.75);
+      opacity: 1;
+    }
+
+    .unixedu-section-header__title {
+      color: vars.$white;
+    }
+  }
+
+  padding: 86px 0 92px;
+
+  @include mixins.respond-max(vars.$bp-lg) {
+    padding: 64px 0 72px;
+  }
+
+  @include mixins.respond-max(vars.$bp-md) {
+    padding: 54px 0 62px;
+  }
+
+  &__inner {
+    @include mixins.container(vars.$container-wide);
+  }
+
+  &__grid {
+    margin-top: 34px;
+  }
+
+  // Match card typography from the provided designs.
+  .segment-card__price {
+    font-size: clamp(44px, 3.2vw, 56px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+  }
+
+  // Light cards: big number should be dark.
+  .segment-card:not(.segment-card--dark) .segment-card__price {
+    color: vars.$brand-dark;
+  }
+
+  // Dark card: keep lime number (already in base card styles).
+  .segment-card--dark .segment-card__price {
+    color: vars.$brand-lime;
+  }
+
+  &__card-eyebrow {
+    margin: 0 0 10px;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 2.7px;
+    text-transform: uppercase;
+    opacity: 0.45;
+  }
+
+  .segment-card--dark &__card-eyebrow {
+    color: rgba(vars.$brand-lime, 0.55);
+    opacity: 1;
+  }
+
+  &__card-subtext {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.35;
+    color: rgba(vars.$brand-dark, 0.55);
+  }
+
+  .segment-card--dark &__card-subtext {
+    color: rgba(vars.$white, 0.45);
+  }
+
+  &__divider {
+    height: 1px;
+    margin: 22px 0 18px;
+    background: rgba(vars.$brand-dark, 0.12);
+  }
+
+  .segment-card--dark &__divider {
+    background: rgba(vars.$white, 0.12);
+  }
+
+  &__details {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(vars.$brand-dark, 0.62);
+  }
+
+  .segment-card--dark &__details {
+    color: rgba(vars.$white, 0.45);
+  }
+
+  &__details-line {
+    display: block;
+  }
+
+  &__card-link {
+    margin: 18px 0 0;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.45;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover,
+      &:focus-visible {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .segment-card--dark &__card-link {
+    color: rgba(vars.$brand-lime, 0.6);
+    opacity: 1;
+  }
+
+  // Editor-only: hide the per-card editors on canvas screenshot mode.
+  &.is-editor-preview .unixedu-segments__card-editor {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed rgba(13, 26, 5, 0.14);
+  }
+}
+

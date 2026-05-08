@@ -89,6 +89,13 @@
   color: vars.$brand-dark;
 }
 
+.unixedu-who-section .unixedu-who-card:not(.path-card--dark) .path-card__eyebrow {
+  color: #0d1a05;
+  opacity: 0.4;
+  font-weight: 800;
+  letter-spacing: 2.7px;
+}
+
 .unixedu-who-section .unixedu-who-card:not(.path-card--dark) .path-card__title,
 .unixedu-who-section .unixedu-who-card:not(.path-card--dark) .path-card__text,
 .unixedu-who-section .unixedu-who-card:not(.path-card--dark) .path-card__url {

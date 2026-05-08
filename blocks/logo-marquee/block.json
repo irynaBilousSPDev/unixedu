@@ -3,7 +3,7 @@
   "apiVersion": 3,
   "name": "unixedu/logo-marquee",
   "title": "Logo Marquee",
-  "category": "design",
+  "category": "unixedu",
   "icon": "images-alt2",
   "description": "Simple logo row that becomes an infinite marquee on overflow.",
   "textdomain": "unixedu",

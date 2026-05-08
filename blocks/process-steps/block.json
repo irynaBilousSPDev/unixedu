@@ -3,7 +3,7 @@
   "apiVersion": 3,
   "name": "unixedu/process-steps",
   "title": "Process Steps",
-  "category": "design",
+  "category": "unixedu",
   "icon": "editor-ol",
   "description": "Universal process/steps section with 4 step cards.",
   "textdomain": "unixedu",

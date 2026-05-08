@@ -282,12 +282,20 @@
   }
 
   &__number {
-    font-size: 26px;
+    font-size: 48px;
     line-height: 1;
     font-weight: 900;
     letter-spacing: -0.02em;
     color: #c8ff00;
     margin-bottom: 10px;
+
+    @include mixins.respond-max(vars.$bp-lg) {
+      font-size: 38px;
+    }
+
+    @include mixins.respond-max(vars.$bp-md) {
+      font-size: 30px;
+    }
   }
 
   &__tier {

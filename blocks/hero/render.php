@@ -15,11 +15,10 @@ $variant = isset($attributes['variant']) ? (string) $attributes['variant'] : 'ho
 $theme   = isset($attributes['theme']) ? (string) $attributes['theme'] : 'light';
 
 $show_breadcrumbs        = !empty($attributes['showBreadcrumbs']);
-$breadcrumb_parent_label = isset($attributes['breadcrumbParentLabel']) ? (string) $attributes['breadcrumbParentLabel'] : '';
-$breadcrumb_parent_url   = isset($attributes['breadcrumbParentUrl']) ? (string) $attributes['breadcrumbParentUrl'] : '';
-$breadcrumb_label        = isset($attributes['breadcrumbLabel']) ? (string) $attributes['breadcrumbLabel'] : '';
 
 $eyebrow = isset($attributes['eyebrow']) ? (string) $attributes['eyebrow'] : '';
+$eyebrow_style = isset($attributes['eyebrowStyle']) ? (string) $attributes['eyebrowStyle'] : 'default';
+$eyebrow_style = in_array($eyebrow_style, ['default', 'black', 'white', 'lime', 'lime-on-black'], true) ? $eyebrow_style : 'default';
 $text    = isset($attributes['text']) ? (string) $attributes['text'] : '';
 
 $title_lines = [
@@ -28,9 +27,21 @@ $title_lines = [
 	isset($attributes['titleLine3']) ? (string) $attributes['titleLine3'] : '',
 	isset($attributes['titleLine4']) ? (string) $attributes['titleLine4'] : '',
 ];
+$title_style_whitelist = ['default', 'black', 'white', 'lime', 'lime-on-black'];
+$title_line_styles = [
+	isset($attributes['titleLine1Style']) ? (string) $attributes['titleLine1Style'] : 'default',
+	isset($attributes['titleLine2Style']) ? (string) $attributes['titleLine2Style'] : 'default',
+	isset($attributes['titleLine3Style']) ? (string) $attributes['titleLine3Style'] : 'default',
+	isset($attributes['titleLine4Style']) ? (string) $attributes['titleLine4Style'] : 'default',
+];
+foreach ($title_line_styles as $i => $style) {
+	$style = (string) $style;
+	$title_line_styles[$i] = in_array($style, $title_style_whitelist, true) ? $style : 'default';
+}
 
-$highlight_mode = isset($attributes['highlightMode']) ? (string) $attributes['highlightMode'] : 'none';
-$highlight_line = isset($attributes['highlightLine']) ? (int) $attributes['highlightLine'] : 0;
+// Highlight mode disabled (kept for backward compatibility with saved attributes).
+$highlight_mode = 'none';
+$highlight_line = 0;
 
 $primary_button_text  = isset($attributes['primaryButtonText']) ? (string) $attributes['primaryButtonText'] : '';
 $primary_button_url   = isset($attributes['primaryButtonUrl']) ? (string) $attributes['primaryButtonUrl'] : '';
@@ -80,8 +91,8 @@ $block_wrapper_attributes = get_block_wrapper_attributes(
 				' ',
 				[
 					'unixedu-hero',
-					'unixedu-hero--' . sanitize_html_class($theme ?: 'light'),
 					'unixedu-hero--' . sanitize_html_class($variant ?: 'home'),
+					('default' !== $eyebrow_style) ? ('unixedu-hero--eyebrow-' . sanitize_html_class($eyebrow_style)) : '',
 				]
 			)
 		),
@@ -94,20 +105,51 @@ if ('' !== trim($hero_image_url)) {
 }
 if ($show_stats) {
 	$hero_style_attr .= sprintf('--unixedu-hero-stats-bottom: %dpx; --unixedu-hero-stats-gap: %dpx;', $stats_bottom_offset, $stats_gap);
+	// Reduce the hero's visual height so the stats bar is more likely to be visible on the first screen.
+	$hero_style_attr .= '--unixedu-hero-viewport-adjust: 180px;';
 }
 
-// Auto breadcrumbs (when enabled) if custom breadcrumb fields are empty.
-if ($show_breadcrumbs && '' === trim($breadcrumb_label)) {
-	$breadcrumb_parent_label = esc_html__('Home', 'unixedu');
-	$breadcrumb_parent_url   = home_url('/');
+// Auto breadcrumbs (toggle only; ignore custom breadcrumb attributes).
+$breadcrumbs = [];
+if ($show_breadcrumbs) {
+	$home_label = esc_html__('Home', 'unixedu');
+	$home_url   = home_url('/');
+	$breadcrumbs[] = [
+		'label' => $home_label,
+		'url'   => $home_url,
+	];
 
-	if (function_exists('get_the_ID')) {
-		$current_id = (int) get_the_ID();
-		if ($current_id > 0) {
-			$current_title = (string) get_the_title($current_id);
-			if ('' !== trim($current_title)) {
-				$breadcrumb_label = $current_title;
+	$current_id = function_exists('get_the_ID') ? (int) get_the_ID() : 0;
+	$is_home_like = function_exists('is_front_page') && is_front_page();
+	$is_home_like = $is_home_like || (function_exists('is_home') && is_home());
+
+	if (!$is_home_like && $current_id > 0) {
+		$post_type = get_post_type($current_id);
+		if ('page' === $post_type) {
+			$ancestors = array_reverse(get_post_ancestors($current_id));
+			foreach ($ancestors as $ancestor_id) {
+				$ancestor_id = (int) $ancestor_id;
+				if ($ancestor_id <= 0) {
+					continue;
+				}
+				$title = (string) get_the_title($ancestor_id);
+				if ('' === trim($title)) {
+					continue;
+				}
+				$breadcrumbs[] = [
+					'label' => $title,
+					'url'   => get_permalink($ancestor_id),
+				];
 			}
+		}
+
+		$current_title = (string) get_the_title($current_id);
+		$current_title = trim($current_title);
+		if ('' !== $current_title && 'home' !== strtolower($current_title)) {
+			$breadcrumbs[] = [
+				'label' => $current_title,
+				'url'   => '',
+			];
 		}
 	}
 }
@@ -116,39 +158,50 @@ if ($show_breadcrumbs && '' === trim($breadcrumb_label)) {
 <section <?php echo $block_wrapper_attributes; ?><?php echo $hero_style_attr ? ' style="' . esc_attr($hero_style_attr) . '"' : ''; ?>>
 	<div class="unixedu-hero__inner">
 		<div class="unixedu-hero__content">
-			<?php if ($show_breadcrumbs && ($breadcrumb_parent_label || $breadcrumb_label)) : ?>
+			<?php if ($show_breadcrumbs && !empty($breadcrumbs)) : ?>
 				<div class="unixedu-hero__breadcrumbs">
-					<?php if ($breadcrumb_parent_url && $breadcrumb_parent_label) : ?>
-						<a href="<?php echo esc_url($breadcrumb_parent_url); ?>">
-							<?php echo esc_html($breadcrumb_parent_label); ?>
-						</a>
-					<?php elseif ($breadcrumb_parent_label) : ?>
-						<?php echo esc_html($breadcrumb_parent_label); ?>
-					<?php endif; ?>
+					<?php foreach ($breadcrumbs as $i => $crumb) : ?>
+						<?php
+						$label = isset($crumb['label']) ? trim((string) $crumb['label']) : '';
+						$url = isset($crumb['url']) ? trim((string) $crumb['url']) : '';
+						if ('' === $label) {
+							continue;
+						}
+						$is_last = ($i === (count($breadcrumbs) - 1));
+						?>
 
-					<?php if ($breadcrumb_label) : ?>
-						<span aria-hidden="true"> / </span>
-						<span><?php echo esc_html($breadcrumb_label); ?></span>
-					<?php endif; ?>
+						<?php if ($i > 0) : ?>
+							<span aria-hidden="true"> / </span>
+						<?php endif; ?>
+
+						<?php if (!$is_last && '' !== $url) : ?>
+							<a href="<?php echo esc_url($url); ?>"><?php echo esc_html($label); ?></a>
+						<?php else : ?>
+							<span><?php echo esc_html($label); ?></span>
+						<?php endif; ?>
+					<?php endforeach; ?>
 				</div>
 			<?php endif; ?>
 
 			<?php if ($eyebrow !== '') : ?>
-				<p class="unixedu-hero__eyebrow"><?php echo wp_kses(nl2br(esc_html($eyebrow)), ['br' => []]); ?></p>
+				<p class="<?php echo esc_attr('unixedu-hero__eyebrow' . ('lime-on-black' === $eyebrow_style ? ' is-lime-on-black' : '')); ?>">
+					<?php echo wp_kses(nl2br(esc_html($eyebrow)), ['br' => []]); ?>
+				</p>
 			<?php endif; ?>
 
 			<?php
 			$has_title = false;
+			$title_line_count = 0;
 			foreach ($title_lines as $line) {
 				if ('' !== trim($line)) {
 					$has_title = true;
-					break;
+					$title_line_count++;
 				}
 			}
 			?>
 
 			<?php if ($has_title) : ?>
-				<h1 class="unixedu-hero__title">
+				<h1 class="<?php echo esc_attr('unixedu-hero__title' . ($title_line_count >= 3 ? ' unixedu-hero__title--three-plus' : '')); ?>">
 					<?php foreach ($title_lines as $index => $line) : ?>
 						<?php if ('' === trim($line)) : ?>
 							<?php continue; ?>
@@ -157,10 +210,17 @@ if ($show_breadcrumbs && '' === trim($breadcrumb_label)) {
 						<?php
 						$is_highlight = ('limeOnDark' === $highlight_mode) && ($highlight_line === $index);
 						$is_mixed_lime = ('mixed' === $highlight_mode) && ('partners' === $variant) && ($index === 0 || $index === 1);
+						$line_style = isset($title_line_styles[$index]) ? (string) $title_line_styles[$index] : 'default';
 
 						$line_classes = ['unixedu-hero__title-line'];
+						if ('default' !== $line_style) {
+							$line_classes[] = 'unixedu-hero__title-line--' . sanitize_html_class($line_style);
+						}
 						if ($is_mixed_lime) {
 							$line_classes[] = 'is-lime';
+						}
+						if ('lime-on-black' === $line_style) {
+							$line_classes[] = 'is-lime-on-black';
 						}
 						?>
 

@@ -1,11 +1,11 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "unixedu/section-header",
-  "title": "Flexible Universal Section",
+  "name": "unixedu/commission-table",
+  "title": "Commission Table",
   "category": "unixedu",
-  "icon": "heading",
-  "description": "Flexible universal section header (eyebrow + multi-line title + optional text/content).",
+  "icon": "table-col-after",
+  "description": "Section header + 4-column commission table with flexible rows.",
   "textdomain": "unixedu",
   "supports": {
     "align": ["wide", "full"],
@@ -13,9 +13,6 @@
   },
   "attributes": {
     "background": { "type": "string", "default": "white" },
-    "renderMode": { "type": "string", "default": "inner" },
-    "maxWidth": { "type": "string", "default": "default" },
-
     "eyebrow": { "type": "string", "default": "" },
     "titleLine1": { "type": "string", "default": "" },
     "titleLine1Style": { "type": "string", "default": "default" },
@@ -23,9 +20,11 @@
     "titleLine2Style": { "type": "string", "default": "default" },
     "titleLine3": { "type": "string", "default": "" },
     "titleLine3Style": { "type": "string", "default": "default" },
-    "text": { "type": "string", "default": "" },
-    "content": { "type": "string", "default": "" },
-    "contentFontWeight": { "type": "number", "default": 500 }
+    "footnote": {
+      "type": "string",
+      "default": "*Based on EUR 600 net commission per student (EUR 3,000 programme fee × 20% university rate). Tiers are cumulative per academic year."
+    },
+    "rows": { "type": "array", "default": [] }
   },
   "editorScript": "file:./index.js",
   "render": "file:./render.php"

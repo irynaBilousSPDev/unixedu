@@ -3,7 +3,7 @@
   "apiVersion": 3,
   "name": "unixedu/cta-strip",
   "title": "CTA Strip",
-  "category": "design",
+  "category": "unixedu",
   "icon": "megaphone",
   "description": "Horizontal call-to-action strip with button.",
   "textdomain": "unixedu",

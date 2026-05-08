@@ -3,7 +3,7 @@
   "apiVersion": 3,
   "name": "unixedu/who-cards",
   "title": "Audience Cards",
-  "category": "design",
+  "category": "unixedu",
   "icon": "screenoptions",
   "description": "Universal 3-card section (light/dark card styles).",
   "textdomain": "unixedu",
