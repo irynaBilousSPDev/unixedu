@@ -64,8 +64,17 @@
     line-height: 1.06;
     font-weight: 900;
     letter-spacing: -0.02em;
+    // One heading row per title line (pills were `inline` and could sit on a single line).
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.12em;
 
-    &:has(.unixedu-process__title-line--lime-on-dark) {
+    // Looser line-height when any line uses a tight “pill” highlight.
+    &:has(.unixedu-process__title-line--dark-on-white),
+    &:has(.unixedu-process__title-line--dark-on-lime),
+    &:has(.unixedu-process__title-line--lime-on-dark),
+    &:has(.unixedu-process__title-line--white-on-dark) {
       line-height: 1.5;
     }
 
@@ -98,10 +107,38 @@
       color: vars.$white;
     }
 
-    &--lime-on-dark {
+    // Pills: inline highlight bars (box-decoration-break keeps padding on wrapped lines).
+    &--dark-on-white {
+      display: inline;
+      background: vars.$white;
+      color: vars.$brand-dark;
+      padding: 0.06em 0.18em;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+
+    &--dark-on-lime {
       display: inline;
       background: vars.$brand-lime;
       color: vars.$brand-dark;
+      padding: 0.06em 0.18em;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+
+    &--lime-on-dark {
+      display: inline;
+      background: vars.$brand-dark;
+      color: vars.$brand-lime;
+      padding: 0.06em 0.18em;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+
+    &--white-on-dark {
+      display: inline;
+      background: vars.$brand-dark;
+      color: vars.$white;
       padding: 0.06em 0.18em;
       box-decoration-break: clone;
       -webkit-box-decoration-break: clone;
@@ -242,7 +279,7 @@
   }
 
   &__card {
-    padding: 18px 22px 18px;
+    padding: 32px 22px 32px;
     border: 1px solid rgba(13, 26, 5, 0.08);
     background: transparent;
     min-height: 190px;
@@ -250,6 +287,10 @@
     @include mixins.respond-max(vars.$bp-lg) {
       border-radius: 12px;
       min-height: 170px;
+    }
+
+    @include mixins.respond-max(vars.$bp-md) {
+      padding: 22px 16px;
     }
   }
 

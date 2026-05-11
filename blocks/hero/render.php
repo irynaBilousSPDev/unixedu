@@ -27,17 +27,12 @@ $title_lines = [
 	isset($attributes['titleLine3']) ? (string) $attributes['titleLine3'] : '',
 	isset($attributes['titleLine4']) ? (string) $attributes['titleLine4'] : '',
 ];
-$title_style_whitelist = ['default', 'black', 'white', 'lime', 'lime-on-black'];
 $title_line_styles = [
 	isset($attributes['titleLine1Style']) ? (string) $attributes['titleLine1Style'] : 'default',
 	isset($attributes['titleLine2Style']) ? (string) $attributes['titleLine2Style'] : 'default',
 	isset($attributes['titleLine3Style']) ? (string) $attributes['titleLine3Style'] : 'default',
 	isset($attributes['titleLine4Style']) ? (string) $attributes['titleLine4Style'] : 'default',
 ];
-foreach ($title_line_styles as $i => $style) {
-	$style = (string) $style;
-	$title_line_styles[$i] = in_array($style, $title_style_whitelist, true) ? $style : 'default';
-}
 
 // Highlight mode disabled (kept for backward compatibility with saved attributes).
 $highlight_mode = 'none';
@@ -93,6 +88,7 @@ $block_wrapper_attributes = get_block_wrapper_attributes(
 					'unixedu-hero',
 					'unixedu-hero--' . sanitize_html_class($variant ?: 'home'),
 					('default' !== $eyebrow_style) ? ('unixedu-hero--eyebrow-' . sanitize_html_class($eyebrow_style)) : '',
+					$show_stats ? 'unixedu-hero--has-stats' : 'unixedu-hero--no-stats',
 				]
 			)
 		),
@@ -211,16 +207,16 @@ if ($show_breadcrumbs) {
 						$is_highlight = ('limeOnDark' === $highlight_mode) && ($highlight_line === $index);
 						$is_mixed_lime = ('mixed' === $highlight_mode) && ('partners' === $variant) && ($index === 0 || $index === 1);
 						$line_style = isset($title_line_styles[$index]) ? (string) $title_line_styles[$index] : 'default';
+						$line_bem = function_exists('unixedu_title_line_style_bem_suffix')
+							? unixedu_title_line_style_bem_suffix($line_style)
+							: 'default';
 
 						$line_classes = ['unixedu-hero__title-line'];
-						if ('default' !== $line_style) {
-							$line_classes[] = 'unixedu-hero__title-line--' . sanitize_html_class($line_style);
+						if ('default' !== $line_bem) {
+							$line_classes[] = 'unixedu-hero__title-line--' . sanitize_html_class($line_bem);
 						}
 						if ($is_mixed_lime) {
 							$line_classes[] = 'is-lime';
-						}
-						if ('lime-on-black' === $line_style) {
-							$line_classes[] = 'is-lime-on-black';
 						}
 						?>
 

@@ -2,6 +2,15 @@
 @use '../abstracts/mixins' as mixins;
 
 .site-footer {
+    // Footer “Follow us” tiles (reference layout): near-black tiles, muted silver icons.
+    $footer-social-tile: #1a1a1a;
+    $footer-social-tile-hover: #242424;
+    $footer-social-icon: #b0b0b0;
+    $footer-social-track: 0.32em;
+    $footer-social-tile-size: 52px;
+    $footer-social-gap: 12px;
+    $footer-social-radius: 13px; // ~25% of tile — squircle
+
     background: vars.$black;
     color: rgba(vars.$white, 0.72);
 
@@ -16,33 +25,25 @@
 
     &__main {
         display: grid;
-        grid-template-columns: minmax(240px, 1.15fr) minmax(0, 2fr) minmax(220px, 0.85fr);
-        gap: 64px;
+        // Extra width on the nav + social side so five column titles stay one row on laptop/desktop.
+        grid-template-columns: minmax(200px, 1fr) minmax(0, 2.35fr);
+        gap: clamp(40px, 5vw, 64px);
         padding-bottom: 56px;
+        align-items: start;
 
         @include mixins.respond-max(vars.$bp-lg) {
-            grid-template-columns: minmax(240px, 1fr) minmax(0, 1.4fr);
-            grid-template-areas:
-                'brand social'
-                'columns columns';
+            grid-template-columns: 1fr;
             gap: 44px;
         }
 
         @include mixins.respond-max(vars.$bp-md) {
-            grid-template-columns: 1fr;
-            grid-template-areas:
-                'brand'
-                'columns'
-                'social';
             gap: 36px;
             padding-bottom: 42px;
         }
     }
 
     &__brand {
-        @include mixins.respond-max(vars.$bp-lg) {
-            grid-area: brand;
-        }
+        min-width: 0;
     }
 
     &__description {
@@ -51,6 +52,12 @@
         font-size: 12px;
         line-height: 1.4;
         color: rgba(vars.$white, 0.6);
+
+        &--company {
+            margin-top: 18px;
+            margin-bottom: 0;
+            max-width: 320px;
+        }
     }
 
     &__logo {
@@ -60,33 +67,78 @@
     }
 
     &__columns {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 44px;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        align-content: flex-start;
+        justify-content: space-between;
+        gap: clamp(20px, 2.2vw, 36px);
+        min-width: 0;
+        flex-wrap: wrap;
 
-        @include mixins.respond-max(vars.$bp-xl) {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+        // One shared title row + one content row (subgrid) so all lime headers line up.
+        @include mixins.respond-min(vars.$bp-lg + 1px) {
+            @supports (grid-template-rows: subgrid) {
+                display: grid;
+                grid-auto-flow: column;
+                grid-auto-columns: minmax(0, 1fr);
+                grid-template-rows: auto 1fr;
+                gap: 0 clamp(20px, 2.2vw, 36px);
+                flex-direction: unset;
+                flex-wrap: unset;
+                justify-content: unset;
+                align-items: unset;
+                align-content: unset;
+            }
+
+            flex-wrap: nowrap;
         }
 
         @include mixins.respond-max(vars.$bp-md) {
-            grid-template-columns: 1fr;
+            flex-direction: column;
+            flex-wrap: nowrap;
             gap: 24px;
-        }
-
-        @include mixins.respond-max(vars.$bp-lg) {
-            grid-area: columns;
         }
     }
 
-    &__column-title,
-    &__social-title {
+    &__column {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        flex: 1 1 0;
+        min-width: 0;
+
+        @include mixins.respond-min(vars.$bp-lg + 1px) {
+            @supports (grid-template-rows: subgrid) {
+                display: grid;
+                grid-template-rows: subgrid;
+                grid-row: 1 / -1;
+                flex: unset;
+                justify-items: start;
+            }
+        }
+
+        &--social {
+            flex: 0 0 auto;
+
+            @include mixins.respond-min(vars.$bp-lg + 1px) {
+                @supports (grid-template-rows: subgrid) {
+                    flex: unset;
+                }
+            }
+        }
+    }
+
+    &__column-title {
         margin: 0 0 20px;
         font-size: 10px;
         font-weight: 800;
         letter-spacing: 0.32em;
         text-transform: uppercase;
         color: vars.$brand-lime;
-        display: inline-block;
+        display: block;
+        width: 100%;
+        max-width: max-content;
         padding-bottom: 10px;
         position: relative;
 
@@ -99,6 +151,38 @@
             height: 1px;
             background: rgba(vars.$brand-lime, 0.28);
         }
+    }
+
+    &__social-title {
+        margin: 0 0 20px;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: $footer-social-track;
+        text-transform: uppercase;
+        color: vars.$brand-lime;
+        line-height: 1.35;
+        display: block;
+        width: 100%;
+        max-width: max-content;
+        text-align: left;
+        padding-bottom: 10px;
+        position: relative;
+
+        // Same treatment as `&__column-title`: short soft lime rule (not a full-width bar).
+        &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 20px;
+            height: 1px;
+            background: rgba(vars.$brand-lime, 0.28);
+        }
+    }
+
+    &__social-title-mark,
+    &__social-title-rest {
+        letter-spacing: inherit;
     }
 
     &__column-title-link {
@@ -161,14 +245,8 @@
     }
 
     &__social {
-        @include mixins.respond-max(vars.$bp-lg) {
-            grid-area: social;
-            justify-self: end;
-        }
-
-        @include mixins.respond-max(vars.$bp-md) {
-            justify-self: start;
-        }
+        // Layout comes from `site-footer__column` (flex or subgrid); keep only typographic alignment.
+        text-align: left;
     }
 
     &__social-list {
@@ -176,23 +254,32 @@
         padding: 0;
         list-style: none;
         display: grid;
-        grid-template-columns: repeat(2, 44px);
-        gap: 12px;
+        grid-template-columns: repeat(3, $footer-social-tile-size);
+        grid-auto-rows: $footer-social-tile-size;
+        gap: $footer-social-gap;
+        width: max-content;
+        max-width: 100%;
     }
 
     &__social-link {
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
-        background: rgba(vars.$white, 0.06);
-        border: 1px solid rgba(vars.$white, 0.1);
+        box-sizing: border-box;
+        width: $footer-social-tile-size;
+        height: $footer-social-tile-size;
+        aspect-ratio: 1 / 1;
+        border-radius: $footer-social-radius;
+        background: $footer-social-tile;
+        border: 1px solid rgba(vars.$white, 0.05);
+        color: $footer-social-icon;
         @include mixins.flexbox(center, center);
-        transition: background vars.$transition-fast, border-color vars.$transition-fast, transform vars.$transition-fast;
+        text-decoration: none;
+        transition: background vars.$transition-fast, border-color vars.$transition-fast, color vars.$transition-fast,
+            transform vars.$transition-fast, opacity vars.$transition-fast;
 
         &:hover,
         &:focus-visible {
-            background: rgba(vars.$brand-lime, 0.12);
-            border-color: rgba(vars.$brand-lime, 0.35);
+            background: $footer-social-tile-hover;
+            border-color: rgba(vars.$brand-lime, 0.22);
+            color: vars.$brand-lime;
         }
 
         &:hover {
@@ -202,12 +289,13 @@
         &:focus-visible {
             @include mixins.focus-ring;
         }
-    }
 
-    &__social-icon {
-        width: 18px;
-        height: 18px;
-        display: block;
+        .site-footer__social-svg {
+            width: 22px;
+            height: 22px;
+            display: block;
+            flex-shrink: 0;
+        }
     }
 
     &__bottom {
@@ -228,6 +316,23 @@
             grid-template-columns: 1fr;
             align-items: start;
         }
+
+        &--no-legal {
+            grid-template-columns: 1fr auto;
+
+            .site-footer__decor-dots {
+                grid-column: 2;
+                grid-row: 1;
+                margin-top: 0;
+                justify-self: end;
+
+                @include mixins.respond-max(vars.$bp-md) {
+                    justify-self: start;
+                    grid-column: auto;
+                    grid-row: auto;
+                }
+            }
+        }
     }
 
     &__copyright {
@@ -238,20 +343,26 @@
         justify-self: end;
         grid-column: 2;
         grid-row: 1;
+        text-align: right;
 
         @include mixins.respond-max(vars.$bp-md) {
             justify-self: start;
             grid-column: auto;
             grid-row: auto;
+            text-align: left;
         }
 
         .site-footer__menu--legal {
             display: flex;
             flex-wrap: wrap;
+            justify-content: flex-end;
             gap: 0;
+            max-width: min(100%, 520px);
 
             @include mixins.respond-max(vars.$bp-md) {
+                justify-content: flex-start;
                 gap: 8px;
+                max-width: none;
             }
 
             > li {
@@ -265,22 +376,10 @@
                 margin-inline: 10px;
                 opacity: 0.6;
             }
-        }
-    }
 
-    &__legal--fallback {
-        justify-self: end;
-        text-align: right;
-        white-space: nowrap;
-        grid-column: 2;
-        grid-row: 1;
-
-        @include mixins.respond-max(vars.$bp-md) {
-            justify-self: start;
-            text-align: left;
-            white-space: normal;
-            grid-column: auto;
-            grid-row: auto;
+            a {
+                white-space: nowrap;
+            }
         }
     }
 

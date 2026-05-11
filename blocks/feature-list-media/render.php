@@ -41,7 +41,6 @@ for ($i = 1; $i <= 3; $i++) {
 		continue;
 	}
 	$s = isset($attributes[$k_style]) ? (string) $attributes[$k_style] : 'default';
-	$s = in_array($s, ['default', 'lime', 'white', 'lime-on-dark'], true) ? $s : 'default';
 	$title_lines[] = [
 		'text'  => $t,
 		'style' => $s,
@@ -68,6 +67,7 @@ $classes = [
 	'unixedu-feature-list-media--bg-' . $background,
 	'unixedu-feature-list-media--accent-' . $accent,
 	'unixedu-feature-list-media--scheme-' . $accent_scheme,
+	'unixedu-feature-list-media--cols-' . (string) $list_cols,
 	$show_media ? '' : 'unixedu-feature-list-media--no-media',
 	$show_dividers ? '' : 'unixedu-feature-list-media--no-dividers',
 	$show_accent ? '' : 'unixedu-feature-list-media--no-accent',
@@ -94,7 +94,12 @@ $style = sprintf(
 				<h2 class="unixedu-section-header__title">
 					<?php if (!empty($title_lines)) : ?>
 						<?php foreach ($title_lines as $line) : ?>
-							<span class="unixedu-section-header__title-line unixedu-section-header__title-line--<?php echo esc_attr($line['style']); ?>">
+							<?php
+							$style_bem = function_exists('unixedu_title_line_style_bem_suffix')
+								? unixedu_title_line_style_bem_suffix((string) $line['style'])
+								: 'default';
+							?>
+							<span class="<?php echo esc_attr('unixedu-section-header__title-line unixedu-section-header__title-line--' . sanitize_html_class($style_bem)); ?>">
 								<?php echo esc_html($line['text']); ?>
 							</span>
 						<?php endforeach; ?>

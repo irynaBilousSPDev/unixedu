@@ -3,7 +3,8 @@ function parseCounterValue(raw) {
   if (!trimmed) return null;
 
   // Extract first numeric token (supports "9,999+", "12000+", "50", "70%").
-  const match = trimmed.match(/(\d[\d,.\s]*)/);
+  // Do not allow spaces inside the token — otherwise "14 days" becomes "14 " + "days" and the space is lost.
+  const match = trimmed.match(/(\d[\d,.]*)/);
   if (!match) return null;
 
   const numberToken = match[1];

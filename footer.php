@@ -17,12 +17,18 @@ if (!defined('ABSPATH')) {
 	<div class="site-footer__inner">
 		<div class="site-footer__main">
 			<div class="site-footer__brand">
-				<p class="site-footer__description">
-					<?php
-					// Keep this as a 2-line tagline to match the design.
-					echo wp_kses_post(__('The smarter way to find<br>your university abroad.', 'unixedu'));
-					?>
-				</p>
+				<?php
+				$unixedu_footer_brand_defaults = function_exists('unixedu_footer_brand_defaults')
+					? unixedu_footer_brand_defaults()
+					: ['tagline' => '', 'company' => ''];
+				$unixedu_footer_tagline = get_theme_mod('unixedu_footer_tagline', $unixedu_footer_brand_defaults['tagline']);
+				$unixedu_footer_tagline = is_string($unixedu_footer_tagline) ? trim($unixedu_footer_tagline) : '';
+				?>
+				<?php if ('' !== $unixedu_footer_tagline) : ?>
+					<p class="site-footer__description">
+						<?php echo wp_kses_post(nl2br(esc_html($unixedu_footer_tagline), false)); ?>
+					</p>
+				<?php endif; ?>
 
 				<?php
 				$unixedu_footer_logo_url = function_exists('unixedu_static') ? unixedu_static('images/footer/unixedu_logo_footer.png') : '';
@@ -38,6 +44,16 @@ if (!defined('ABSPATH')) {
 							height="48"
 						/>
 					</a>
+				<?php endif; ?>
+
+				<?php
+				$unixedu_footer_company = get_theme_mod('unixedu_footer_company', $unixedu_footer_brand_defaults['company']);
+				$unixedu_footer_company = is_string($unixedu_footer_company) ? trim($unixedu_footer_company) : '';
+				?>
+				<?php if ('' !== $unixedu_footer_company) : ?>
+					<p class="site-footer__description site-footer__description--company">
+						<?php echo wp_kses_post(nl2br(esc_html($unixedu_footer_company), false)); ?>
+					</p>
 				<?php endif; ?>
 			</div>
 
@@ -100,78 +116,111 @@ if (!defined('ABSPATH')) {
 						<?php endif; ?>
 					</div>
 				<?php endforeach; ?>
-			</div>
-
-			<div class="site-footer__social">
-				<h2 class="site-footer__social-title"><?php echo esc_html__('Follow us', 'unixedu'); ?></h2>
 
 				<?php
-				// TODO: Move social URLs to theme options (Customizer/ACF) later.
 				$unixedu_social_links = [];
 
-				if (function_exists('unixedu_static') && function_exists('unixedu_static_path')) {
+				if (function_exists('unixedu_static_path')) {
 					$unixedu_candidates = [
 						[
-							'label'    => 'Instagram',
-							'href'     => '#',
-							'rel_path' => 'images/social/social_instagram.png',
+							'label'     => 'Instagram',
+							'theme_mod' => 'unixedu_social_instagram',
+							'file'      => 'icon-instagram.svg',
 						],
 						[
-							'label'    => 'TikTok',
-							'href'     => '#',
-							'rel_path' => 'images/social/social_music.png',
+							'label'     => 'TikTok',
+							'theme_mod' => 'unixedu_social_tiktok',
+							'file'      => 'icon-tiktok.svg',
 						],
 						[
-							'label'    => 'YouTube',
-							'href'     => '#',
-							'rel_path' => 'images/social/social_youtube.png',
+							'label'     => 'YouTube',
+							'theme_mod' => 'unixedu_social_youtube',
+							'file'      => 'icon-youtube.svg',
 						],
 						[
-							'label'    => 'LinkedIn',
-							'href'     => '#',
-							'rel_path' => 'images/social/social_in.png',
+							'label'     => 'Facebook',
+							'theme_mod' => 'unixedu_social_facebook',
+							'file'      => 'icon-facebook.svg',
+						],
+						[
+							'label'     => 'LinkedIn',
+							'theme_mod' => 'unixedu_social_linkedin',
+							'file'      => 'icon-linkedin.svg',
+						],
+						[
+							'label'     => 'X',
+							'theme_mod' => 'unixedu_social_x',
+							'file'      => 'icon-x.svg',
 						],
 					];
 
 					foreach ($unixedu_candidates as $unixedu_candidate) {
-						if (!empty($unixedu_candidate['rel_path']) && file_exists(unixedu_static_path((string) $unixedu_candidate['rel_path']))) {
-							$unixedu_social_links[] = [
-								'label' => (string) $unixedu_candidate['label'],
-								'href'  => (string) $unixedu_candidate['href'],
-								'icon'  => unixedu_static((string) $unixedu_candidate['rel_path']),
-							];
+						$unixedu_svg_path = unixedu_static_path('images/social/' . (string) $unixedu_candidate['file']);
+						if (! is_readable($unixedu_svg_path)) {
+							continue;
 						}
+						$unixedu_svg_raw = file_get_contents($unixedu_svg_path);
+						if (! is_string($unixedu_svg_raw) || '' === trim($unixedu_svg_raw)) {
+							continue;
+						}
+						$unixedu_raw_url = get_theme_mod((string) $unixedu_candidate['theme_mod'], '');
+						$unixedu_raw_url = is_string($unixedu_raw_url) ? trim($unixedu_raw_url) : '';
+						if ('' === $unixedu_raw_url) {
+							continue;
+						}
+						$unixedu_resolved = esc_url_raw($unixedu_raw_url);
+						if ('' === $unixedu_resolved || ! preg_match('#^https?://#i', $unixedu_resolved)) {
+							continue;
+						}
+						$unixedu_href     = esc_url($unixedu_resolved);
+						$unixedu_external = (bool) preg_match('#^https?://#i', $unixedu_resolved);
+
+						$unixedu_social_links[] = [
+							'label'    => (string) $unixedu_candidate['label'],
+							'href'     => $unixedu_href,
+							'external' => $unixedu_external,
+							'svg'      => $unixedu_svg_raw,
+						];
 					}
 				}
 				?>
 
 				<?php if (!empty($unixedu_social_links)) : ?>
-					<ul class="site-footer__social-list">
-						<?php foreach ($unixedu_social_links as $unixedu_social) : ?>
-							<li class="site-footer__social-item">
-								<a
-									class="site-footer__social-link"
-									href="<?php echo esc_url($unixedu_social['href']); ?>"
-									aria-label="<?php echo esc_attr($unixedu_social['label']); ?>"
-								>
-									<img
-										class="site-footer__social-icon"
-										src="<?php echo esc_url($unixedu_social['icon']); ?>"
-										alt=""
-										loading="lazy"
-										width="18"
-										height="18"
-									/>
-								</a>
-							</li>
-						<?php endforeach; ?>
-					</ul>
+					<div class="site-footer__column site-footer__column--social site-footer__social">
+						<h2 id="footer-follow-us-heading" class="site-footer__social-title">
+							<span class="site-footer__social-title-mark"><?php echo esc_html__('Follow', 'unixedu'); ?></span><span class="site-footer__social-title-rest"><?php echo esc_html__(' us', 'unixedu'); ?></span>
+						</h2>
+
+						<ul class="site-footer__social-list" aria-labelledby="footer-follow-us-heading">
+							<?php foreach ($unixedu_social_links as $unixedu_social) : ?>
+								<li class="site-footer__social-item">
+									<a
+										class="site-footer__social-link"
+										href="<?php echo esc_url($unixedu_social['href']); ?>"
+										aria-label="<?php echo esc_attr($unixedu_social['label']); ?>"
+										<?php echo $unixedu_social['external'] ? ' target="_blank" rel="noopener noreferrer"' : ''; ?>
+									>
+										<?php
+										// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+										echo $unixedu_social['svg'];
+										?>
+									</a>
+								</li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
 				<?php endif; ?>
 			</div>
 		</div>
 
 		<div class="site-footer__bottom">
-			<div class="site-footer__bottom-inner">
+			<?php
+			$unixedu_bottom_inner_classes = ['site-footer__bottom-inner'];
+			if (!has_nav_menu('legal')) {
+				$unixedu_bottom_inner_classes[] = 'site-footer__bottom-inner--no-legal';
+			}
+			?>
+			<div class="<?php echo esc_attr(implode(' ', $unixedu_bottom_inner_classes)); ?>">
 				<p class="site-footer__copyright">
 					<?php
 					echo esc_html(
@@ -185,7 +234,7 @@ if (!defined('ABSPATH')) {
 				</p>
 
 				<?php if (has_nav_menu('legal')) : ?>
-					<nav class="site-footer__legal" aria-label="<?php echo esc_attr__('Legal menu', 'unixedu'); ?>">
+					<nav class="site-footer__legal" aria-label="<?php echo esc_attr__('Legal and policies', 'unixedu'); ?>">
 						<?php
 						wp_nav_menu(
 							[
@@ -194,14 +243,11 @@ if (!defined('ABSPATH')) {
 								'fallback_cb'    => false,
 								'menu_class'     => 'site-footer__menu site-footer__menu--legal',
 								'depth'          => 1,
+								'menu_id'        => '',
 							]
 						);
 						?>
 					</nav>
-				<?php else : ?>
-					<div class="site-footer__legal site-footer__legal--fallback" aria-label="<?php echo esc_attr__('Legal links', 'unixedu'); ?>">
-						<?php echo esc_html__('Privacy Policy · Terms of Use · Cookie Settings · Accessibility', 'unixedu'); ?>
-					</div>
 				<?php endif; ?>
 
 				<div class="site-footer__decor-dots" aria-hidden="true">

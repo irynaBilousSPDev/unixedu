@@ -70,7 +70,7 @@
     align-items: start;
     gap: clamp(28px, 4vw, 56px);
 
-    @include mixins.respond-max(md) {
+    @include mixins.respond-max(vars.$bp-md) {
       grid-template-columns: 1fr;
     }
   }
@@ -81,7 +81,7 @@
 
   &__text {
     margin-top: 16px;
-    max-width: 56ch;
+    max-width: 68ch;
     color: var(--flm-muted);
   }
 
@@ -89,14 +89,30 @@
     color: #fff;
   }
 
+  // If title has no pill line, keep tighter line-height.
+  .unixedu-section-header__title:not(:has(.unixedu-section-header__title-line--dark-on-white)):not(
+      :has(.unixedu-section-header__title-line--dark-on-lime)
+    ):not(:has(.unixedu-section-header__title-line--lime-on-dark)):not(
+      :has(.unixedu-section-header__title-line--white-on-dark)
+    ) {
+    line-height: 1.2;
+  }
+
   &__grid {
     margin-top: clamp(22px, 3vw, 36px);
     display: grid;
-    grid-template-columns: repeat(var(--flm-cols, 2), 1fr);
-    column-gap: clamp(22px, 3vw, 44px);
-    row-gap: 0;
+    grid-template-columns: repeat(var(--flm-cols, 2), minmax(0, 1fr));
+    column-gap: clamp(16px, 2.8vw, 44px);
+    row-gap: clamp(0.5rem, 2vw, 1rem);
 
-    @include mixins.respond-max(md) {
+    // Three columns is too tight between tablet and desktop; cap at two until md.
+    @include mixins.respond-max(vars.$bp-lg) {
+      .unixedu-feature-list-media--cols-3 & {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @include mixins.respond-max(vars.$bp-md) {
       grid-template-columns: 1fr;
     }
   }
@@ -104,20 +120,18 @@
   &__item {
     position: relative;
     display: grid;
-    grid-template-columns: var(--flm-accent-col-w) 1fr;
+    grid-template-columns: var(--flm-accent-col-w) minmax(0, 1fr);
     gap: var(--flm-accent-gap);
+    min-width: 0;
+    margin-bottom: 0;
     padding-top: 10px;
     padding-bottom: 22px;
     border-top: 1px solid var(--flm-border);
 
-    @include mixins.respond-max(md) {
+    @include mixins.respond-max(vars.$bp-md) {
       padding-top: 10px;
       padding-bottom: 18px;
     }
-  }
-
-  &__grid > &__item:nth-child(-n + 2) {
-    border-top: 1px solid var(--flm-border);
   }
 
   &__item-accent {
@@ -128,7 +142,7 @@
   }
 
   &--no-accent &__item {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0;
   }
 
@@ -136,9 +150,6 @@
     border-top: 0;
   }
 
-  &--no-dividers &__grid > &__item:nth-child(-n + 2) {
-    border-top: 0;
-  }
 
   &__item--col-2 &__item-accent {
     background: var(--flm-accent-2);
@@ -152,6 +163,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    min-width: 0;
   }
 
   &__item-icon {
@@ -167,6 +179,8 @@
     line-height: 1.2;
     font-weight: 800;
     color: #0d1a05;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   &--bg-black &__item-title {
@@ -178,6 +192,7 @@
     font-size: 14px;
     line-height: 1.6;
     color: var(--flm-muted);
+    overflow-wrap: anywhere;
   }
 
   &__media {
@@ -185,7 +200,7 @@
     justify-self: end;
     position: relative;
 
-    @include mixins.respond-max(md) {
+    @include mixins.respond-max(vars.$bp-md) {
       order: -1;
       max-width: none;
       justify-self: stretch;

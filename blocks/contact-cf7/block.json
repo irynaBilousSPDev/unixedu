@@ -1,0 +1,40 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "unixedu/contact-cf7",
+  "title": "Contact (CF7)",
+  "category": "unixedu",
+  "icon": "email-alt",
+  "description": "Section header + left contact info card + right Contact Form 7 form card.",
+  "textdomain": "unixedu",
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true
+  },
+  "attributes": {
+    "background": { "type": "string", "default": "lime" },
+
+    "eyebrow": { "type": "string", "default": "" },
+    "titleLine1": { "type": "string", "default": "" },
+    "titleLine1Style": { "type": "string", "default": "default" },
+    "titleLine2": { "type": "string", "default": "" },
+    "titleLine2Style": { "type": "string", "default": "default" },
+    "text": { "type": "string", "default": "" },
+
+    "leftLabel": { "type": "string", "default": "Partnerships Team" },
+    "emailLabel": { "type": "string", "default": "Email" },
+    "email": { "type": "string", "default": "" },
+    "phoneLabel": { "type": "string", "default": "Phone" },
+    "phone": { "type": "string", "default": "" },
+    "whatsappLabel": { "type": "string", "default": "WhatsApp" },
+    "whatsapp": { "type": "string", "default": "" },
+    "noteLine1": { "type": "string", "default": "" },
+    "noteLine2": { "type": "string", "default": "" },
+
+    "formTitle": { "type": "string", "default": "" },
+    "cf7Shortcode": { "type": "string", "default": "" }
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}
+

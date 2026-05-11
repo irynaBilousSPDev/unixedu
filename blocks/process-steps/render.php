@@ -47,8 +47,6 @@ $title_lines = [
 	],
 ];
 
-$allowed_line_styles = ['default', 'lime', 'white', 'lime-on-dark'];
-
 $steps = [];
 for ($i = 1; $i <= 4; $i++) {
 	$steps[] = [
@@ -144,10 +142,12 @@ if (in_array($background_mode, ['image', 'image-dark'], true) && '' !== trim($bg
 						if ('' === trim($text)) {
 							continue;
 						}
-						$style = isset($line['style']) ? (string) $line['style'] : 'default';
-						$style = in_array($style, $allowed_line_styles, true) ? $style : 'default';
+						$style_raw = isset($line['style']) ? (string) $line['style'] : 'default';
+						$style_bem = function_exists('unixedu_title_line_style_bem_suffix')
+							? unixedu_title_line_style_bem_suffix($style_raw)
+							: 'default';
 						?>
-						<span class="<?php echo esc_attr('unixedu-process__title-line unixedu-process__title-line--' . sanitize_html_class($style)); ?>">
+						<span class="<?php echo esc_attr('unixedu-process__title-line unixedu-process__title-line--' . sanitize_html_class($style_bem)); ?>">
 							<?php echo wp_kses(nl2br(esc_html($text)), ['br' => []]); ?>
 						</span>
 					<?php endforeach; ?>

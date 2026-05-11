@@ -31,6 +31,98 @@ if (!function_exists('unixedu_register_blocks')) {
 add_action('init', 'unixedu_register_blocks');
 
 /**
+ * Enable anchor (HTML id) support for every uniXedu block so editors can set a custom id in Advanced.
+ */
+add_filter(
+	'register_block_type_args',
+	static function (array $args, string $name): array {
+		if (! str_starts_with($name, 'unixedu/')) {
+			return $args;
+		}
+		if (! isset($args['supports']) || ! is_array($args['supports'])) {
+			$args['supports'] = [];
+		}
+		$args['supports']['anchor'] = true;
+
+		return $args;
+	},
+	10,
+	2
+);
+
+/**
+ * Sanitize a string for use as an HTML id (safe subset).
+ */
+if (! function_exists('unixedu_sanitize_block_dom_id')) {
+	function unixedu_sanitize_block_dom_id(string $id): string {
+		$id = strtolower((string) preg_replace('/[^a-z0-9_-]+/i', '-', $id));
+		$id = trim($id, '-');
+		if ('' === $id) {
+			return 'unixedu-block';
+		}
+		// HTML5 allows ids starting with a digit; keep leading digits for stability with post ids.
+
+		return $id;
+	}
+}
+
+/**
+ * Ensure each rendered uniXedu block has a unique root id when none is set (custom anchor wins).
+ */
+add_filter(
+	'render_block',
+	static function (string $block_content, array $block): string {
+		if (empty($block['blockName']) || ! is_string($block['blockName']) || ! str_starts_with($block['blockName'], 'unixedu/')) {
+			return $block_content;
+		}
+		$trimmed = ltrim($block_content);
+		if ('' === $trimmed || '<' !== $trimmed[0]) {
+			return $block_content;
+		}
+
+		static $unixedu_render_seq = 0;
+		++$unixedu_render_seq;
+
+		$post_id = (int) get_the_ID();
+		if ($post_id < 1) {
+			$queried = get_queried_object_id();
+			$post_id = $queried > 0 ? $queried : 0;
+		}
+
+		$slug = str_replace('/', '-', $block['blockName']);
+		$generated = unixedu_sanitize_block_dom_id(sprintf('%s-p%d-i%d', $slug, $post_id, $unixedu_render_seq));
+
+		if (class_exists('WP_HTML_Tag_Processor')) {
+			$processor = new WP_HTML_Tag_Processor($block_content);
+			if ($processor->next_tag()) {
+				$existing = $processor->get_attribute('id');
+				if (is_string($existing) && '' !== trim($existing)) {
+					return $block_content;
+				}
+				$processor->set_attribute('id', $generated);
+
+				return $processor->get_updated_html();
+			}
+
+			return $block_content;
+		}
+
+		if (preg_match('/\bid\s*=\s*["\']/', $block_content)) {
+			return $block_content;
+		}
+
+		return (string) preg_replace(
+			'/(<[a-z][a-z0-9]*\b)/i',
+			'$1 id="' . esc_attr($generated) . '"',
+			$block_content,
+			1
+		);
+	},
+	10,
+	2
+);
+
+/**
  * Add a custom block category for uniXedu blocks.
  */
 add_filter('block_categories_all', function (array $categories, $editor_context): array {

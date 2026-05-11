@@ -1,0 +1,330 @@
+@use "../abstracts/mixins";
+@use "../abstracts/variables" as vars;
+
+.unixedu-contact-cf7 {
+  --cc-bg: #c8ff00;
+  --cc-text: #0d1a05;
+
+  padding-block: clamp(56px, 6vw, 92px);
+
+  &--bg-lime {
+    background: #c8ff00;
+  }
+
+  &--bg-white {
+    background: #fff;
+  }
+
+  &--bg-light-gray {
+    background: #f6f7f7;
+  }
+
+  &--bg-black {
+    background: #0d1a05;
+    --cc-text: #fff;
+  }
+
+  &__inner {
+    @include mixins.container(vars.$container-wide);
+  }
+
+  &__text {
+    margin-top: 14px;
+    max-width: 760px;
+    color: rgba(13, 26, 5, 0.55);
+  }
+
+  .unixedu-section-header__eyebrow {
+    color: #0d1a05;
+    opacity: 0.38;
+    font-size: 9px;
+  }
+
+  &--bg-black &__text {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  &__grid {
+    margin-top: clamp(26px, 3.5vw, 44px);
+    display: grid;
+    grid-template-columns: 4fr 8fr;
+    gap: clamp(18px, 2.4vw, 28px);
+
+    @include mixins.respond-max(vars.$bp-lg) {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+
+  &__card {
+    border-radius: 18px;
+    overflow: hidden;
+  }
+
+  &__card--left {
+    background: #0d1a05;
+    color: #fff;
+    padding: clamp(28px, 3.2vw, 42px);
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 3px;
+      background: #c8ff00;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+  }
+
+  &__left-label {
+    font-size: 9px;
+    letter-spacing: 2.7px;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: #c8ff00;
+    opacity: 0.5;
+  }
+
+  &__left-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.14);
+    margin: 14px 0 22px;
+  }
+
+  &__kv {
+    padding-block: 16px;
+    font-size: 16px;
+  }
+
+  &__k {
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.48);
+    font-weight: 400;
+  }
+
+  &__v {
+    margin-top: 10px;
+    font-size: 16px;
+    line-height: 1.15;
+    font-weight: 900;
+    color: #c8ff00;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      font-size: 16px;
+    }
+  }
+
+  &__notes {
+    margin-top: 24px;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 13px;
+    line-height: 1.55;
+
+    p {
+      margin: 0;
+    }
+
+    p + p {
+      margin-top: 6px;
+    }
+  }
+
+  &__card--right {
+    background: #f7ffe8;
+    padding: clamp(28px, 3.2vw, 42px);
+    border-radius: 18px;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 3px;
+      background: #c8ff00;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    @include mixins.respond-max(vars.$bp-md) {
+      border-radius: 18px;
+      padding: 26px;
+    }
+  }
+
+  &__form-title {
+    margin: 0 0 14px;
+    font-size: 16px;
+    font-weight: 800;
+    color: rgba(13, 26, 5, 0.72);
+  }
+
+  // CF7 form styling (scoped)
+  &__form {
+    .wpcf7 {
+      margin: 0;
+    }
+
+    .wpcf7 form {
+      margin: 0;
+    }
+
+    .wpcf7 form {
+      display: grid;
+      gap: 0;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      font-size: 9px;
+      letter-spacing: 2.52px;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: #0d1a05;
+      opacity: 0.42;
+      gap: 5px;
+    }
+
+    .wpcf7-form-control-wrap {
+      display: block;
+    }
+
+    // CF7 often outputs <table> for row layouts; stack cells on tablet/mobile instead of one horizontal row.
+    @include mixins.respond-max(vars.$bp-lg) {
+      table {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        border-collapse: collapse;
+      }
+
+      table thead {
+        display: none;
+      }
+
+      table tbody,
+      table tr {
+        display: block;
+        width: 100%;
+      }
+
+      table tr {
+        margin-bottom: 18px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid rgba(13, 26, 5, 0.12);
+      }
+
+      table tr:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+
+      table td,
+      table th {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 8px 0;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      table td:empty,
+      table th:empty {
+        display: none;
+      }
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea {
+      width: 100%;
+      max-width: 420px;
+      border-radius: 10px;
+      border: 1px solid rgba(13, 26, 5, 0.22);
+      padding: 14px 16px;
+      background: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+
+    input[type="text"]::placeholder,
+    input[type="email"]::placeholder,
+    input[type="tel"]::placeholder,
+    textarea::placeholder {
+      color: #0d1a05;
+      opacity: 0.28;
+      font-size: 12px;
+    }
+
+    textarea {
+      height: 52px;
+      min-height: 0;
+      resize: none;
+    }
+
+    input[type="submit"],
+    button,
+    .wpcf7-submit {
+      width: min(320px, 100%);
+      height: 56px;
+      border-radius: 999px;
+      border: 0;
+      background: #0d1a05;
+      color: #c8ff00;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding-inline: 22px;
+    }
+
+    @include mixins.respond-max(vars.$bp-md) {
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      textarea {
+        max-width: none;
+      }
+
+      input[type="submit"],
+      button,
+      .wpcf7-submit {
+        width: 100%;
+        max-width: none;
+      }
+    }
+  }
+
+  &.is-editor-preview {
+    padding-inline: 12px;
+  }
+
+  &.is-editor-preview &__form-ph {
+    padding: 12px;
+    background: rgba(13, 26, 5, 0.06);
+    border-radius: 12px;
+
+    code {
+      display: block;
+      word-break: break-word;
+    }
+  }
+}
+

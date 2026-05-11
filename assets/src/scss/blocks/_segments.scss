@@ -42,14 +42,27 @@
 
   &__grid {
     margin-top: 34px;
+
+    // Equal-height cards in the row; link sits at the bottom.
+    align-items: stretch;
+  }
+
+  &__grid .segment-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
 
   // Match card typography from the provided designs.
   .segment-card__price {
-    font-size: clamp(44px, 3.2vw, 56px);
+    font-size: 28px;
     line-height: 1;
     letter-spacing: -0.03em;
     margin-bottom: 12px;
+
+    @include mixins.respond-max(vars.$bp-md) {
+      font-size: clamp(22px, 6vw, 26px);
+    }
   }
 
   // Light cards: big number should be dark.
@@ -99,7 +112,7 @@
 
   &__details {
     margin: 0;
-    font-size: 15px;
+    font-size: 11px;
     line-height: 1.6;
     color: rgba(vars.$brand-dark, 0.62);
   }
@@ -113,7 +126,9 @@
   }
 
   &__card-link {
-    margin: 18px 0 0;
+    margin-top: auto;
+    margin-bottom: 0;
+    padding-top: 18px;
     font-size: 10px;
     font-weight: 900;
     letter-spacing: 0.14em;

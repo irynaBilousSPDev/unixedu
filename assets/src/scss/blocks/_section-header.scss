@@ -1,6 +1,112 @@
 @use '../abstracts/variables' as vars;
 @use '../abstracts/mixins' as mixins;
 
+// -----------------------------------------------------------------------------
+// BEM elements below are used in TWO ways:
+// 1) Inside `.unixedu-section-header` (section-header block wrapper).
+// 2) Inside other blocks (media-cta, segments, commission-table, …) with ONLY
+//    `unixedu-section-header__*` classes — no `.unixedu-section-header` ancestor.
+// So `__head`, `__eyebrow`, `__title`, and `__title-line` MUST be root-level
+// selectors, not nested under `.unixedu-section-header`.
+// -----------------------------------------------------------------------------
+
+.unixedu-section-header__head {
+  max-width: 980px;
+}
+
+.unixedu-section-header__eyebrow {
+  margin: 0 0 10px;
+  font-size: 11px;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+.unixedu-section-header__title {
+  margin: 0;
+  font-size: 44px;
+  line-height: 1.4;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.12em;
+
+  &:has(.unixedu-section-header__title-line--dark-on-white),
+  &:has(.unixedu-section-header__title-line--dark-on-lime),
+  &:has(.unixedu-section-header__title-line--lime-on-dark),
+  &:has(.unixedu-section-header__title-line--white-on-dark) {
+    line-height: 1.5;
+  }
+
+  @include mixins.respond-max(vars.$bp-lg) {
+    font-size: 38px;
+  }
+
+  @include mixins.respond-max(vars.$bp-md) {
+    font-size: 32px;
+  }
+}
+
+.unixedu-section-header__title-line {
+  display: block;
+
+  &--default {
+    color: inherit;
+  }
+
+  &--lime {
+    color: vars.$brand-lime;
+  }
+
+  &--white {
+    color: vars.$white;
+  }
+
+  &--black {
+    color: vars.$brand-dark;
+  }
+
+  &--dark-on-white {
+    display: inline;
+    background: vars.$white;
+    color: vars.$brand-dark;
+    padding: 0.06em 0.18em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  &--dark-on-lime {
+    display: inline;
+    background: vars.$brand-lime;
+    color: vars.$brand-dark;
+    padding: 0.06em 0.18em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  &--lime-on-dark {
+    display: inline;
+    background: vars.$brand-dark;
+    color: vars.$brand-lime;
+    padding: 0.06em 0.18em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  &--white-on-dark {
+    display: inline;
+    background: vars.$brand-dark;
+    color: vars.$white;
+    padding: 0.06em 0.18em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+}
+
 .unixedu-section-header {
   &--bg-white {
     background: vars.$white;
@@ -38,67 +144,12 @@
     @include mixins.container(vars.$container-wide);
   }
 
-  &__head {
-    max-width: 980px;
-  }
-
-  &--width-compact &__head {
+  &--width-compact .unixedu-section-header__head {
     max-width: 760px;
   }
 
-  &--width-wide &__head {
+  &--width-wide .unixedu-section-header__head {
     max-width: 1100px;
-  }
-
-  &__eyebrow {
-    margin: 0 0 10px;
-    font-size: 11px;
-    line-height: 1.2;
-    font-weight: 800;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    opacity: 0.72;
-  }
-
-  &__title {
-    margin: 0;
-    font-size: 44px;
-    line-height: 1.4;
-    font-weight: 900;
-    letter-spacing: -0.02em;
-
-    @include mixins.respond-max(vars.$bp-lg) {
-      font-size: 38px;
-    }
-
-    @include mixins.respond-max(vars.$bp-md) {
-      font-size: 32px;
-    }
-  }
-
-  &__title-line {
-    display: block;
-
-    &--default {
-      color: inherit;
-    }
-
-    &--lime {
-      color: vars.$brand-lime;
-    }
-
-    &--white {
-      color: vars.$white;
-    }
-
-    &--lime-on-dark {
-      display: inline;
-      background: vars.$brand-lime;
-      color: vars.$brand-dark;
-      padding: 0.06em 0.18em;
-      box-decoration-break: clone;
-      -webkit-box-decoration-break: clone;
-    }
   }
 
   &__text {
@@ -130,4 +181,3 @@
     }
   }
 }
-

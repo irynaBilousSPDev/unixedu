@@ -1,6 +1,29 @@
 @use '../abstracts/variables' as vars;
 @use '../abstracts/mixins' as mixins;
 
+// Smooth in-page / hash navigation; scroll-padding clears the sticky header for :target jumps.
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(92px + 12px);
+
+    @include mixins.respond-max(vars.$bp-lg) {
+        scroll-padding-top: calc(#{vars.$header-height-mobile} + 12px);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        scroll-behavior: auto;
+    }
+}
+
+// Block anchors from `render_block` (ids like unixedu-hero-p12-i3).
+[id^='unixedu-'] {
+    scroll-margin-top: calc(92px + 12px);
+
+    @include mixins.respond-max(vars.$bp-lg) {
+        scroll-margin-top: calc(#{vars.$header-height-mobile} + 12px);
+    }
+}
+
 .site-main {
     overflow: hidden;
 }

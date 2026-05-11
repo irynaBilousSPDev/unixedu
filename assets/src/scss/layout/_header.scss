@@ -106,6 +106,9 @@
         margin: 0;
         padding: 0;
         list-style: none;
+        // Letter-spacing adds trailing space after the last glyph; the link box (and
+        // full-width ::after underline) would otherwise extend past the visible label.
+        --site-header-nav-ls: 0.22em;
 
         > li > a {
             display: inline-block;
@@ -113,7 +116,8 @@
             font-size: 11px;
             line-height: 1;
             font-weight: 700;
-            letter-spacing: 0.22em;
+            letter-spacing: var(--site-header-nav-ls);
+            margin-inline-end: calc(-1 * var(--site-header-nav-ls));
             text-transform: uppercase;
             color: rgba(vars.$brand-lime, 0.82);
             transition: color vars.$transition-fast, opacity vars.$transition-fast;
@@ -139,10 +143,11 @@
         > li > a::after {
             content: '';
             position: absolute;
-            left: 0;
-            right: 0;
+            left: 54%;
             bottom: -6px;
-            height: 1px;
+            width: 107%;
+            height: 2px;
+            transform: translateX(-50%);
             background: currentColor;
             border-radius: 1px;
             opacity: 0;

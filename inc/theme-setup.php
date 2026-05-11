@@ -43,8 +43,8 @@ if (!function_exists('unixedu_theme_setup')) {
 				'footer_students'     => esc_html__('Footer: For Students', 'unixedu'),
 				'footer_universities' => esc_html__('Footer: For Universities', 'unixedu'),
 				'footer_institution'  => esc_html__('Footer: For Institutions', 'unixedu'),
-				'footer'     => esc_html__('Footer Menu', 'unixedu'),
-				'legal'      => esc_html__('Legal Menu', 'unixedu'),
+				'footer'        => esc_html__('Footer Menu', 'unixedu'),
+				'legal' => esc_html__('Footer: Legal (Privacy, Terms, Cookies, Accessibility)', 'unixedu'),
 			]
 		);
 	}

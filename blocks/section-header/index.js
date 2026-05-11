@@ -1,3 +1,94 @@
+/**
+ * Shared title line style helpers for uniXedu blocks (editor).
+ * Loaded before block `index.js` via block.json `editorScript` dependency.
+ */
+(function (w) {
+  'use strict';
+
+  if (w.unixeduTitleLineStyles) {
+    return;
+  }
+
+  var ALLOWED = [
+    'default',
+    'lime',
+    'white',
+    'dark-on-white',
+    'dark-on-lime',
+    'lime-fg-on-dark',
+    'white-on-dark',
+  ];
+
+  var TITLE_LINE_STYLE_OPTIONS = [
+    { label: 'Default (inherit)', value: 'default' },
+    { label: 'Lime text', value: 'lime' },
+    { label: 'White text', value: 'white' },
+    { label: 'Dark on white (pill)', value: 'dark-on-white' },
+    { label: 'Dark on lime (pill)', value: 'dark-on-lime' },
+    { label: 'Lime on dark (pill)', value: 'lime-fg-on-dark' },
+    { label: 'White on dark (pill)', value: 'white-on-dark' },
+  ];
+
+  var HERO_TITLE_ALLOWED = [
+    'default',
+    'black',
+    'white',
+    'lime',
+    'dark-on-white',
+    'dark-on-lime',
+    'lime-fg-on-dark',
+    'white-on-dark',
+  ];
+
+  var HERO_TITLE_STYLE_OPTIONS = [
+    { label: 'Default', value: 'default' },
+    { label: 'Black text', value: 'black' },
+    { label: 'White text', value: 'white' },
+    { label: 'Lime text', value: 'lime' },
+    { label: 'Dark on white (pill)', value: 'dark-on-white' },
+    { label: 'Dark on lime (pill)', value: 'dark-on-lime' },
+    { label: 'Lime on dark (pill)', value: 'lime-fg-on-dark' },
+    { label: 'White on dark (pill)', value: 'white-on-dark' },
+  ];
+
+  function normalizeStyle(v) {
+    var x = String(v || '');
+    if (x === 'lime-on-dark') {
+      return 'dark-on-lime';
+    }
+    return ALLOWED.indexOf(x) !== -1 ? x : 'default';
+  }
+
+  function bemSuffix(v) {
+    var s = normalizeStyle(v);
+    return s === 'lime-fg-on-dark' ? 'lime-on-dark' : s;
+  }
+
+  function normalizeHeroTitleStyle(v) {
+    var x = String(v || '');
+    if (x === 'lime-on-black') {
+      return 'lime-fg-on-dark';
+    }
+    if (x === 'lime-on-dark') {
+      return 'dark-on-lime';
+    }
+    return HERO_TITLE_ALLOWED.indexOf(x) !== -1 ? x : 'default';
+  }
+
+  function heroTitleBemSuffix(v) {
+    var s = normalizeHeroTitleStyle(v);
+    return s === 'lime-fg-on-dark' ? 'lime-on-dark' : s;
+  }
+
+  w.unixeduTitleLineStyles = {
+    TITLE_LINE_STYLE_OPTIONS: TITLE_LINE_STYLE_OPTIONS,
+    HERO_TITLE_STYLE_OPTIONS: HERO_TITLE_STYLE_OPTIONS,
+    normalizeStyle: normalizeStyle,
+    bemSuffix: bemSuffix,
+    normalizeHeroTitleStyle: normalizeHeroTitleStyle,
+    heroTitleBemSuffix: heroTitleBemSuffix,
+  };
+})(window);
 (function (wp) {
   const { registerBlockType } = wp.blocks;
   const { InspectorControls } = wp.blockEditor;
@@ -21,12 +112,8 @@
     { label: 'Wide', value: 'wide' },
   ];
 
-  const TITLE_LINE_STYLE_OPTIONS = [
-    { label: 'Default', value: 'default' },
-    { label: 'Lime', value: 'lime' },
-    { label: 'White', value: 'white' },
-    { label: 'Lime on dark', value: 'lime-on-dark' },
-  ];
+  const TLS = window.unixeduTitleLineStyles;
+  const TITLE_LINE_STYLE_OPTIONS = TLS.TITLE_LINE_STYLE_OPTIONS;
 
   const CONTENT_FONT_WEIGHT_OPTIONS = [
     { label: '400', value: 400 },
@@ -46,8 +133,11 @@
   }
 
   function normalizeLineStyle(v) {
-    const x = String(v || '');
-    return ['default', 'lime', 'white', 'lime-on-dark'].includes(x) ? x : 'default';
+    return TLS.normalizeStyle(v);
+  }
+
+  function titleLineBemSuffix(v) {
+    return TLS.bemSuffix(v);
   }
 
   function toInt(value, fallback) {
@@ -62,9 +152,9 @@
 
   function TitlePreview({ attrs }) {
     const lines = [
-      { text: (attrs.titleLine1 || '').trim(), style: normalizeLineStyle(attrs.titleLine1Style) },
-      { text: (attrs.titleLine2 || '').trim(), style: normalizeLineStyle(attrs.titleLine2Style) },
-      { text: (attrs.titleLine3 || '').trim(), style: normalizeLineStyle(attrs.titleLine3Style) },
+      { text: (attrs.titleLine1 || '').trim(), style: attrs.titleLine1Style },
+      { text: (attrs.titleLine2 || '').trim(), style: attrs.titleLine2Style },
+      { text: (attrs.titleLine3 || '').trim(), style: attrs.titleLine3Style },
     ].filter((l) => l.text);
 
     const previewLines = lines.length
@@ -77,7 +167,10 @@
       previewLines.map((l, idx) =>
         wp.element.createElement(
           'span',
-          { key: idx, className: `unixedu-section-header__title-line unixedu-section-header__title-line--${l.style}` },
+          {
+            key: idx,
+            className: `unixedu-section-header__title-line unixedu-section-header__title-line--${titleLineBemSuffix(l.style)}`,
+          },
           l.text
         )
       )

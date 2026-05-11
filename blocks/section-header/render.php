@@ -41,8 +41,6 @@ $title_lines = [
 	],
 ];
 
-$allowed_line_styles = ['default', 'lime', 'white', 'lime-on-dark'];
-
 $has_title = false;
 foreach ($title_lines as $line) {
 	if (isset($line['text']) && '' !== trim((string) $line['text'])) {
@@ -64,7 +62,7 @@ $block_wrapper_attributes = get_block_wrapper_attributes(
 	]
 );
 
-$header_markup = static function () use ($eyebrow, $text, $content, $content_font_weight, $title_lines, $allowed_line_styles, $has_title): void {
+$header_markup = static function () use ($eyebrow, $text, $content, $content_font_weight, $title_lines, $has_title): void {
 	?>
 	<header class="unixedu-section-header__head">
 		<?php if ('' !== trim($eyebrow)) : ?>
@@ -79,10 +77,12 @@ $header_markup = static function () use ($eyebrow, $text, $content, $content_fon
 					if ('' === trim($line_text)) {
 						continue;
 					}
-					$style = isset($line['style']) ? (string) $line['style'] : 'default';
-					$style = in_array($style, $allowed_line_styles, true) ? $style : 'default';
+					$style_raw = isset($line['style']) ? (string) $line['style'] : 'default';
+					$style_bem = function_exists('unixedu_title_line_style_bem_suffix')
+						? unixedu_title_line_style_bem_suffix($style_raw)
+						: 'default';
 					?>
-					<span class="<?php echo esc_attr('unixedu-section-header__title-line unixedu-section-header__title-line--' . sanitize_html_class($style)); ?>">
+					<span class="<?php echo esc_attr('unixedu-section-header__title-line unixedu-section-header__title-line--' . sanitize_html_class($style_bem)); ?>">
 						<?php echo wp_kses(nl2br(esc_html($line_text)), ['br' => []]); ?>
 					</span>
 				<?php endforeach; ?>
