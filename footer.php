@@ -226,7 +226,7 @@ if (!defined('ABSPATH')) {
 					echo esc_html(
 						sprintf(
 							/* translators: %s is the current year. */
-							__('© %s uniXedu Sp. z o.o. All rights reserved.', 'unixedu'),
+							__('© %s uniXedu Ltd. All rights reserved.', 'unixedu'),
 							gmdate('Y')
 						)
 					);
