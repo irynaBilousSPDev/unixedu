@@ -11,6 +11,7 @@ window.initNavigation = function initNavigation() {
   if (!toggle || !panel) return;
 
   const BODY_OPEN_CLASS = 'is-navigation-open';
+  const submenuItems = panel.querySelectorAll('.site-header__panel-menu > .menu-item-has-children');
 
   function isOpen() {
     return document.body.classList.contains(BODY_OPEN_CLASS);
@@ -18,6 +19,21 @@ window.initNavigation = function initNavigation() {
 
   function setExpanded(expanded) {
     toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+  }
+
+  function setSubmenuOpen(item, open) {
+    item.classList.toggle('is-submenu-open', open);
+    const button = item.querySelector(':scope > .site-header__submenu-toggle');
+    if (!button) return;
+    button.setAttribute('aria-expanded', open ? 'true' : 'false');
+    const label = button.querySelector('.visually-hidden');
+    if (label) {
+      label.textContent = open ? 'Close submenu' : 'Open submenu';
+    }
+  }
+
+  function closeSubmenus() {
+    submenuItems.forEach((item) => setSubmenuOpen(item, false));
   }
 
   function openMenu() {
@@ -32,6 +48,7 @@ window.initNavigation = function initNavigation() {
     document.body.classList.remove(BODY_OPEN_CLASS);
     panel.hidden = true;
     setExpanded(false);
+    closeSubmenus();
   }
 
   function toggleMenu() {
@@ -60,5 +77,26 @@ window.initNavigation = function initNavigation() {
     if (header.contains(target)) return;
     closeMenu();
   });
-};
 
+  submenuItems.forEach((item) => {
+    const link = item.querySelector(':scope > a');
+    const submenu = item.querySelector(':scope > .sub-menu');
+    const button = item.querySelector(':scope > .site-header__submenu-toggle');
+    if (!link || !submenu || !button) return;
+
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const willOpen = !item.classList.contains('is-submenu-open');
+      closeSubmenus();
+      if (willOpen) setSubmenuOpen(item, true);
+    });
+
+    link.addEventListener('click', (event) => {
+      if (item.classList.contains('is-submenu-open')) return;
+      event.preventDefault();
+      closeSubmenus();
+      setSubmenuOpen(item, true);
+    });
+  });
+};

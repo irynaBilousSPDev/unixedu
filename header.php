@@ -79,6 +79,7 @@ if (!defined('ABSPATH')) {
 					'fallback_cb'    => false,
 					'menu_class'     => 'site-header__menu',
 					'depth'          => 2,
+					'walker'         => new Unixedu_Nav_Walker(),
 				]
 			);
 			?>
@@ -120,6 +121,7 @@ if (!defined('ABSPATH')) {
 						'fallback_cb'    => false,
 						'menu_class'     => 'site-header__panel-menu',
 						'depth'          => 2,
+						'walker'         => new Unixedu_Nav_Walker(),
 					]
 				);
 				?>
